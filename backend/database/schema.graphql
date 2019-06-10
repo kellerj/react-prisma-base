@@ -1,0 +1,23 @@
+# import * from '../src/generated/prisma.graphql'
+
+interface Result {
+  message: String
+  isError: Boolean!
+  fieldErrors: [String!]!
+  fieldMessages: [String!]!
+}
+
+type GeneralResult implements Result {
+  message: String
+  isError: Boolean!
+  fieldErrors: [String!]!
+  fieldMessages: [String!]!
+}
+
+type Mutation {
+  doSomething: GeneralResult!
+}
+
+type Query {
+  getSomething: Something!
+}

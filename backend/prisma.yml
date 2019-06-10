@@ -1,0 +1,42 @@
+# This service is based on the type definitions in the files listed below
+datamodel:
+  - database/datamodel.graphql
+
+# The endpoint represents the HTTP endpoint for your Prisma API.
+# It encodes several pieces of information:
+# * Prisma server (`localhost:4466` in this example)
+# * Service name (`myservice` in this example)
+# * Stage (`dev` in this example)
+# NOTE: When service name and stage are set to `default`, they
+# can be omitted.
+# Meaning http://myserver.com/default/default can be written
+# as http://myserver.com.
+endpoint: ${env:PRISMA_ENDPOINT}
+
+# The secret is used to create JSON web tokens (JWTs). These
+# tokens need to be attached in the `Authorization` header
+# of HTTP requests made against the Prisma endpoint.
+# WARNING: If the secret is not provided, the Prisma API can
+# be accessed without authentication!
+secret: ${env:PRISMA_SECRET}
+
+# Generate a Prisma client in JavaScript and store in
+# a folder called `generated/prisma-client`.
+# It also downloads the Prisma GraphQL schema and stores it
+# in `generated/prisma.graphql`.
+generate:
+  - generator: graphql-schema
+    output: ./src/generated/prisma.graphql
+  - generator: javascript-client
+    output: ./src/generated/prisma-client
+
+# A "post-deployment" hook that regenerates
+# the Prisma client.
+# hooks:
+#   post-deploy:
+#     - graphql get-schema -p prisma
+
+# Executes a Node.js script to seed the database with
+# initial data.
+seed:
+  run: node database/seed/index.js

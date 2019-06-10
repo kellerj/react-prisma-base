@@ -1,0 +1,21 @@
+# Port on which the Prisma server will be accessible - this will be configured
+# on the server side of any applications using prisma
+port: 4466
+# secret key used for deployment operations and access to the admin UI
+# when using prisma commands, this value must be set in the
+# PRISMA_MANAGEMENT_API_SECRET environment variable
+managementApiSecret: prisma-api-secret
+# Whether to turn on the management API on the given node (depends on clustering)
+enableManagementApi: true
+# While this says "databases", prisma presently supports only one per server
+databases:
+  default:
+    connector: mongo
+    # this could be constructed via Ansible or other environment variables
+    # ${} substitution seems to be supported
+    uri: mongodb://prisma:prisma@host.docker.internal:27017/?authSource=admin
+    # Whether schema changes are supported by this database (must be true)
+    management: true
+    # Max # of connections to the database
+    # This would be across *all* applications using this prisma server
+    connectionLimit: 10

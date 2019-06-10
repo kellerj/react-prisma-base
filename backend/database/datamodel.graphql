@@ -1,0 +1,5 @@
+
+type Something {
+  id: ID! @unique @id
+  name: String!
+}

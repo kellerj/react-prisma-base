@@ -1,0 +1,29 @@
+$body-bg: #EEE;
+// $body-color: #111;
+$font-size-base: 0.75rem;
+
+$theme-colors: (
+  "primary": #175212,
+  "warning": #9B479F,
+  "danger": #D9230F,
+  "success": #2629d3,
+);
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.col-form-label {
+  padding-top: calc(#{$input-padding-y} + #{$input-border-width});
+  padding-bottom: calc(#{$input-padding-y} + #{$input-border-width});
+  margin-bottom: 0; // Override the `<label>/<legend>` default
+  @include font-size(inherit); // Override the `<legend>` default
+	line-height: $input-line-height;
+	font-weight: bold;
+}
+
+.col-form-label-lg {
+  padding-top: calc(#{$input-padding-y-lg} + #{$input-border-width});
+  padding-bottom: calc(#{$input-padding-y-lg} + #{$input-border-width});
+  @include font-size($input-font-size-lg);
+  line-height: $input-line-height-lg;
+	font-weight: bold;
+}
