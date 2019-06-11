@@ -70,13 +70,14 @@ const traceAndDeny = rule({
 
 module.exports = shield({
   Query: {
-    something: allow,
-    somethingElse: isAdmin,
+    getSomething: allow,
+    // somethingElse: isAdmin,
   },
   Mutation: {
+    doSomething: allow,
   },
   Something: allow,
-  AggregateSomething: allow,
+  // AggregateSomething: allow,
 },
 {
   debug: process.env.NODE_ENV === 'development',

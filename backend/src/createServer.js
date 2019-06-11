@@ -58,57 +58,17 @@ const playground = {
     'tracing.hideTracingResponse': true,
   },
   tabs: [
-    {
-      endpoint: process.env.BACKEND_URL,
-      name: 'Signin admin',
-      query: `mutation SIGNIN {
-  signin(email:"admin@localhost", password:"admin") {
-    id
-    email
-    permissions
-  }
-}
-      `,
-      responses: ['{}'],
-    },
-    {
-      endpoint: process.env.BACKEND_URL,
-      name: 'Create Item',
-      query: `mutation createItem {
-  createItem(title: "test sdsds", description:"asdsadsadsa", price:12345, image:"") {
-    id
-    user {
-      email
-    }
-  }
-}
-      `,
-      responses: ['{}'],
-    },
-    {
-      endpoint: process.env.BACKEND_URL,
-      name: 'Signin test1',
-      query: `mutation SIGNIN {
-  signin(email:"test1@localhost", password:"test1") {
-    id
-    email
-    permissions
-  }
-}
-      `,
-      responses: ['{}'],
-    },
-    {
-      endpoint: process.env.BACKEND_URL,
-      name: 'Delete Item',
-      query: `mutation deleteItem {
-  deleteItem(id:"5cf31abb46e0fb0008018d25") {
-    id
-  }
-}
-      `,
-      responses: ['{}'],
-    },
+//     {
+//       endpoint: process.env.BACKEND_URL,
+//       name: 'Tab Label',
+//       query: `mutation {
+//   mutationName {
+//     message
+//   }
+// }
+//       `,
+//       responses: ['{}'],
+//     },
   ],
 };
 
