@@ -1,23 +1,21 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import { ApolloProvider } from 'react-apollo';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/styles.scss';
-import { library } from '@fortawesome/fontawesome-svg-core';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faShoppingCart, faCartPlus, faEdit, faTrashAlt, faUserCircle, faSearch,
-} from '@fortawesome/free-solid-svg-icons';
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import {
+//   faShoppingCart, faCartPlus, faEdit, faTrashAlt, faUserCircle, faSearch,
+// } from '@fortawesome/free-solid-svg-icons';
 
 import Page from '../components/Page';
 import withData from '../lib/withData';
 
-library.add(faShoppingCart);
-library.add(faCartPlus);
-library.add(faEdit);
-library.add(faTrashAlt);
-library.add(faUserCircle);
-library.add(faSearch);
+// library.add(faShoppingCart);
+// library.add(faCartPlus);
+// library.add(faEdit);
+// library.add(faTrashAlt);
+// library.add(faUserCircle);
+// library.add(faSearch);
 
 class ThisApp extends App {
   static async getInitialProps({ Component, ctx }) {

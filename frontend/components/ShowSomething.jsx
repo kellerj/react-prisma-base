@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import graphql from 'graphql-tag';
 
+const jsonColorizer = require('json-colorizer');
+const stringify = require('json-stringify-safe');
+
 const GET_SOMETHING = graphql`
   query GET_SOMETHING {
     getSomething {
@@ -20,12 +23,16 @@ const DO_SOMETHING_MUTATION = graphql`
 `;
 
 export default class ShowSomething extends Component {
+  state = {
+    message: '',
+  }
 
   doSomething = async (e, doSomething) => {
     e.preventDefault();
-    console.log(`Doing Something`);
+    console.log('Doing Something');
     const response = await doSomething();
-    console.log(response);
+    console.log(jsonColorizer(stringify(response, null, 2)));
+    this.setState({ message: response.message });
   }
 
   render() {
@@ -41,8 +48,9 @@ export default class ShowSomething extends Component {
               }) => (
                 // this.updateItem(e, updateItem)}
                 <div>
-                <p>{data}</p>
-                <button onClick={(e) => this.doSomething(e, doSomething)} />
+                  <p>{data}</p>
+                  <p><button type="button" onClick={e => this.doSomething(e, doSomething)} /></p>
+                  <p>Result: {this.state.message}</p>
                 </div>
               )}
             </Mutation>

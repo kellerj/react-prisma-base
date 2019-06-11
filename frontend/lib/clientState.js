@@ -45,18 +45,6 @@ export const Defaults = {
 
 export const Resolvers = {
   Mutation: {
-    toggleCart(_, variables, { cache }) {
-      const { cartOpen } = cache.readQuery({
-        query: LOCAL_STATE_QUERY,
-      });
-      const data = {
-        data: {
-          cartOpen: !cartOpen,
-        },
-      };
-      cache.writeData(data);
-      return data;
-    },
     setAlert(_, variables, { cache }) {
       console.log(variables);
       const data = {

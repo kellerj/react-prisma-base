@@ -1,5 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
+import getConfig from 'next/config';
+
+const { appName } = getConfig().publicRuntimeConfig;
 
 const Meta = () => (
   <Head>
@@ -10,7 +13,7 @@ const Meta = () => (
       rel="stylesheet" href="/static/nprogress.css"
       type="text/css"
     />
-    <title>react-prisma-base</title>
+    <title>{appName}</title>
   </Head>
 );
 
