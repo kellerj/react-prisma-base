@@ -1,3 +1,6 @@
+/**
+ * @file Establishes the prisma configuration and javascript bindings.
+ */
 const Bindings = require('prisma-binding');
 const Client = require('./generated/prisma-client');
 const { fragmentReplacements } = require('./resolvers/index');

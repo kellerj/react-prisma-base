@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @desc GraphQL request/response logging middleware
+ * @memberof middlewares
+ */
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
 
@@ -8,6 +13,15 @@ const stringify = require('json-stringify-safe');
 // console.log(`Info: ${jsonColorizer(stringify(info, null, 2))}`);
 // console.log(`Context: ${jsonColorizer(stringify(context, null, 2))}`);
 
+/**
+ * Log the operation and arguments of the GraphQL call.
+ *
+ * @param {*} resolve Call to continue resolving the graphQL request.
+ * @param {*} root Apollo internals for the request
+ * @param {object} args Arguments passed into the request if needed.
+ * @param {*} context Apollo internals for the request
+ * @param {*} info Apollo internals with information on the operation being called
+ */
 const logRequest = async (resolve, root, args, context, info) => {
   console.log(`GraphQL Request: ${jsonColorizer(stringify({
     parentType: info.parentType,

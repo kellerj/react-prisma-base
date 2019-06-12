@@ -1,3 +1,7 @@
+/**
+ * @module middlewares
+ * @desc Include file to pull middlewares into the GraphQL setup.
+ */
 /* eslint-disable global-require */
 
 const middlewares = [];

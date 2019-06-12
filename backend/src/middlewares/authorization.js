@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @desc Authorization middleware controlling access to GraphQL endpoints
+ * @memberof middlewares
+ */
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
 
@@ -7,6 +12,10 @@ const {
   rule, shield, and, or, deny, not, allow,
 } = require('graphql-shield');
 
+/**
+ * Checks whether the request contains an authenticated `userId`
+ * @func
+ */
 const isAuthenticated = rule({
   cache: 'contextual',
 })(async (parent, args, ctx, info) => !!ctx.req.userId);

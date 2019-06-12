@@ -6,6 +6,7 @@
     "start": "nodemon -e js,graphql -x node src/index.js",
     "dev": "nodemon -e js,graphql -x node --inspect src/index.js",
     "test": "jest",
+    "doc": "jsdoc -c ./jsdoc.config.js",
     "db:admin": "dotenv prisma admin",
     "db:deploy": "dotenv prisma deploy",
     "db:seed": "dotenv prisma seed",
@@ -43,7 +44,10 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.17.3"
+    "eslint-plugin-import": "^2.17.3",
+    "jsdoc": "^3.6.2",
+    "jsdoc-memberof-namespace": "^2.2.0",
+    "minami": "^1.2.3"
   },
   "license": "MIT",
   "repository": {

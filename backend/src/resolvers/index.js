@@ -1,3 +1,8 @@
+/**
+ * Master file for including GraphQL resolvers.
+ *
+ * @module
+ */
 /* eslint-disable global-require */
 const { extractFragmentReplacements } = require('prisma-binding');
 

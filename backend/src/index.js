@@ -1,8 +1,11 @@
-
+/**
+ * @file Main entry point for the application.  Starts up the express server and applies the Apollo Server as a middleware.
+ * @author Jonathan Keller
+ */
 require('dotenv-expand')(require('dotenv-safe').config());
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const createServer = require('./createServer');
+const createServer = require('./apollo');
 
 const apollo = createServer();
 

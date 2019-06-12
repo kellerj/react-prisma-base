@@ -1,3 +1,7 @@
+/**
+ * Apollo Server setup/configuration.
+ * @module
+ */
 const { ApolloServer } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const jsonColorizer = require('json-colorizer');
@@ -5,6 +9,13 @@ const jsonColorizer = require('json-colorizer');
 const prisma = require('./prisma').bindings;
 const schema = require('./schema');
 
+/**
+ * Express Middleware Function: Decodes and verifies the JWT from the `token` cookie.
+ * Sets `userId` of the decoded token into the request.
+ *
+ * @param {*} req Express request object
+ * @returns the `userId` from the JWT token
+ */
 const decodeJwt = (req) => {
   console.log('JWT Middleware');
   // console.log(req);

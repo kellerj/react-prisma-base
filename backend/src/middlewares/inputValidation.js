@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @desc Input validation middleware controlling access to GraphQL endpoints
+ */
 /* eslint-disable no-unused-vars */
 const {
   shield, and, or, not, inputRule,
