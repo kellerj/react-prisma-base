@@ -52,24 +52,36 @@ const playground = {
     'prettier.useTabs': false,
     'request.credentials': 'same-origin',
     'schema.polling.enable': true,
-    // 'schema.polling.endpointFilter': `*${process.env.BACKEND_URL}*`,
+    'schema.polling.endpointFilter': `*${process.env.BACKEND_URL}*`,
     'schema.polling.interval': 20000,
     'schema.disableComments': true,
     'tracing.hideTracingResponse': true,
   },
-  // tabs: [
-//     {
-//       endpoint: process.env.BACKEND_URL,
-//       name: 'Tab Label',
-//       query: `mutation {
-//   mutationName {
-//     message
-//   }
-// }
-//       `,
-//       responses: ['{}'],
-//     },
-  // ],
+  tabs: [
+    {
+      endpoint: process.env.BACKEND_URL,
+      name: 'Get Something',
+      query: `query GET_SOMETHING($code: String!) {
+  something(where: { code: $code }) {
+    id
+    code
+    name
+  }
+}
+      `,
+      variables: JSON.stringify({ code: '1' }, null, 2),
+    },
+    {
+      endpoint: process.env.BACKEND_URL,
+      name: 'Do Something',
+      query: `mutation DO_SOMETHING_MUTATION {
+  doSomething {
+    message
+  }
+}
+      `,
+    },
+  ],
 };
 
 // Create server

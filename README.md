@@ -1,5 +1,10 @@
 # React-Prisma Application Template
 
+## Project Structure
+
+* `frontend` : Next.js / Apollo-client / React components
+* `backend` : Apollo Server / Prisma Client
+
 ## Build / Startup Instructions
 
 1. Start up mongo/prisma servers
