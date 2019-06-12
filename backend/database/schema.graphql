@@ -19,5 +19,5 @@ type Mutation {
 }
 
 type Query {
-  getSomething: Something!
+  something(where: SomethingWhereUniqueInput!): Something
 }

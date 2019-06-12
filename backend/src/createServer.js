@@ -9,8 +9,8 @@ const decodeJwt = (req) => {
   console.log('JWT Middleware');
   // console.log(req);
   const { token } = req.cookies;
-  console.log(`Cookies: ${JSON.stringify(req.cookies)}`);
-  console.log(`JWT Token: ${token}`);
+  // console.log(`Cookies: ${JSON.stringify(req.cookies)}`);
+  // console.log(`JWT Token: ${token}`);
   if (token) {
     const decodedToken = jwt.verify(token, process.env.APP_SECRET);
     console.log(`Decoded Token: ${jsonColorizer(decodedToken)}`);
@@ -24,8 +24,8 @@ const addUserToContext = async (req, userId, db) => {
   console.log('User Middleware');
   // console.log(req);
   if (req.userId) {
-    req.user = await db.query.user({ where: { id: req.userId } }, '{ id name email permissions }');
-    console.log(`Authenticated User: ${jsonColorizer(req.user)}`);
+    // req.user = await db.query.user({ where: { id: req.userId } }, '{ id name email permissions }');
+    // console.log(`Authenticated User: ${jsonColorizer(req.user)}`);
   }
 };
 
@@ -52,12 +52,12 @@ const playground = {
     'prettier.useTabs': false,
     'request.credentials': 'same-origin',
     'schema.polling.enable': true,
-    'schema.polling.endpointFilter': `*${process.env.BACKEND_URL}*`,
+    // 'schema.polling.endpointFilter': `*${process.env.BACKEND_URL}*`,
     'schema.polling.interval': 20000,
     'schema.disableComments': true,
     'tracing.hideTracingResponse': true,
   },
-  tabs: [
+  // tabs: [
 //     {
 //       endpoint: process.env.BACKEND_URL,
 //       name: 'Tab Label',
@@ -69,7 +69,7 @@ const playground = {
 //       `,
 //       responses: ['{}'],
 //     },
-  ],
+  // ],
 };
 
 // Create server

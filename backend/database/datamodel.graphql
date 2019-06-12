@@ -1,5 +1,6 @@
 
 type Something {
-  id: ID! @unique @id
+  id: ID! @id
+  code: String! @unique
   name: String!
 }

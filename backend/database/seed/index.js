@@ -2,12 +2,13 @@
 const casual = require('casual');
 const db = require('../../src/prisma').bindings;
 
-const createSomething = async (name) => {
+const createSomething = async (code, name) => {
   const result = await db.mutation.createSomething({
     data: {
+      code,
       name,
     },
-  }, '{ id name }');
+  }, '{ id code name }');
   console.log(`Inserted Something: ${JSON.stringify(result)}`);
   return result;
 };
@@ -15,7 +16,7 @@ const createSomething = async (name) => {
 const setup = async () => {
   console.log('Seeding Database');
 
-  await createSomething(casual.word);
+  await createSomething('1', casual.word);
 };
 
 setup();

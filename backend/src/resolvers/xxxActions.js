@@ -1,7 +1,7 @@
 const { forwardTo } = require('prisma-binding');
 
 const Query = {
-  getSomething: forwardTo('db'),
+  something: forwardTo('db'),
 };
 
 const Mutation = {
@@ -16,6 +16,7 @@ const Mutation = {
     // console.log(item);
 
     // return item;
+    console.log('Did Something');
     return { message: 'This Did Something' };
   },
 };

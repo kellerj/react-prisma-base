@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Other middlewares here
-middlewares.push(require('./authorization'));
+// middlewares.push(require('./authorization'));
 
 // log the result as the last item
 if (process.env.NODE_ENV === 'development') {
