@@ -35,7 +35,8 @@
     "nodemon": "^1.19.1",
     "password-validator": "^4.1.1",
     "prisma": "^1.34.0",
-    "prisma-binding": "^2.3.11"
+    "prisma-binding": "^2.3.11",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "casual": "^1.6.2",
