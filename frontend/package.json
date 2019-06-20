@@ -2,9 +2,9 @@
   "name": "react-prisma-base-frontend",
   "version": "1.0.0",
   "description": "Application React Front End",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "DOTENV_CONFIG_PATH=../backend next -p 7777",
+    "dev": "DOTENV_CONFIG_PATH=../backend node server.js",
     "build": "next build",
     "start": "next start",
     "test": "NODE_ENV=test jest --watch"
@@ -30,6 +30,7 @@
     "dotenv-safe": "^6.1.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.13.0",
+    "express": "^4.17.1",
     "graphql": "^14.3.0",
     "graphql-tag": "^2.9.2",
     "json-colorizer": "^2.2.1",
