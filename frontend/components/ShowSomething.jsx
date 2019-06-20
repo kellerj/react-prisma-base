@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { SET_ALERT, getMessageFromGraphQLError } from '../lib/clientState';
+
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
 
@@ -28,36 +30,56 @@ export default class ShowSomething extends Component {
     message: '',
   }
 
-  doSomething = async (e, doSomething) => {
-    e.preventDefault();
-    console.log('Doing Something');
-    const response = await doSomething();
-    console.log(jsonColorizer(stringify(response, null, 2)));
-    this.setState({ message: response.data.doSomething.message });
-  }
-
   render() {
     return (
-      <Query query={GET_SOMETHING} variables={{ code: '1' }}>
-        {({ data, loading }) => {
-          if (loading) return <p>Loading...</p>;
-          if (!data.something) return <p>Nothing Found</p>;
-          return (
-            <Mutation mutation={DO_SOMETHING_MUTATION}>
-              {(doSomething, {
-                mutationLoading, error,
-              }) => (
-                // this.updateItem(e, updateItem)}
-                <div>
-                  <p>Something's Name: {data.something.name}</p>
-                  <p><button type="button" onClick={e => this.doSomething(e, doSomething)}>Click Me</button></p>
-                  <p>Result: {this.state.message}</p>
-                </div>
-              )}
-            </Mutation>
-          );
-        }}
-      </Query>
+      <Mutation
+        mutation={SET_ALERT}
+      >{setAlert => (
+        <Query query={GET_SOMETHING} variables={{ code: '1' }}>
+          {({ data, loading }) => {
+            if (loading) return <p>Loading...</p>;
+            if (!data.something) return <p>Nothing Found</p>;
+            return (
+              <Mutation
+                mutation={DO_SOMETHING_MUTATION}
+                onCompleted={({ doSomething }) => {
+                  console.log('Did Something');
+                  console.log(jsonColorizer(stringify(doSomething, null, 2)));
+                  this.setState({ message: doSomething.message });
+                }}
+              >
+                {(doSomething, { loading, error }) => (
+                  <div>
+                    <p>Something&apos;s Name: {data.something.name}</p>
+                    <p>
+                      <button
+                        type="button" onClick={async (e) => {
+                          e.preventDefault();
+                          console.log('Doing Something');
+                          await doSomething();
+                        }}
+                      >Click Me
+                      </button>
+                    </p>
+                    <p>Result: {this.state.message}</p>
+                    <p>
+                      <button
+                        type="button" onClick={(e) => {
+                          e.preventDefault();
+                          console.log('Alerting!');
+                          setAlert({ variables: { alertType: 'danger', alertContent: 'Please don\'t click that button!' } });
+                        }}
+                      >Show Alert
+                      </button>
+                    </p>
+                  </div>
+                )}
+              </Mutation>
+            );
+          }}
+        </Query>
+      )}
+      </Mutation>
     );
   }
 }

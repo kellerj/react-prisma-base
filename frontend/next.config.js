@@ -1,5 +1,3 @@
-const nextRuntimeDotenv = require('next-runtime-dotenv');
-// console.log(process.env);
 require('dotenv-expand')(require('dotenv-safe').config({
   debug: true,
   path: `${process.env.DOTENV_CONFIG_PATH}/.env`,
@@ -8,11 +6,11 @@ require('dotenv-expand')(require('dotenv-safe').config({
 const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
 
-module.exports = nextRuntimeDotenv(withCSS(withSass({
-  public: [
-    'BACKEND_URL,',
-  ],
-  server: [
-    'SERVER_BACKEND_URL',
-  ],
-})));
+module.exports = withCSS(withSass({
+  publicRuntimeConfig: {
+    BACKEND_URL: process.env.BACKEND_URL,
+  },
+  serverRuntimeConfig: {
+    SERVER_BACKEND_URL: process.env.SERVER_BACKEND_URL,
+  },
+}));

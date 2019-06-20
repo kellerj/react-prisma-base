@@ -4,6 +4,7 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import getConfig from 'next/config';
 
+console.log(getConfig());
 const { BACKEND_URL } = getConfig().publicRuntimeConfig;
 
 const cspBuilder = require('content-security-policy-builder');
