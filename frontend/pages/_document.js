@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import getConfig from 'next/config';
 
-const { backendUrl } = getConfig().publicRuntimeConfig;
+const { BACKEND_URL } = getConfig().publicRuntimeConfig;
 
 const cspBuilder = require('content-security-policy-builder');
 
@@ -16,7 +17,7 @@ const csp = cspBuilder({
     objectSrc: "'none'",
     mediaSrc: "'none'",
     frameSrc: "'none'",
-    connectSrc: ["'self'", backendUrl],
+    connectSrc: ["'self'", BACKEND_URL],
   },
 });
 

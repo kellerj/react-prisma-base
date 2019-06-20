@@ -7,7 +7,7 @@ import getConfig from 'next/config';
 import { Resolvers, Defaults } from './clientState';
 
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
-const backendUrl = serverRuntimeConfig.backendUrl || publicRuntimeConfig.backendUrl;
+const backendUrl = serverRuntimeConfig.SERVER_BACKEND_URL || publicRuntimeConfig.BACKEND_URL;
 
 let agent = new http.Agent();
 if (backendUrl.startsWith('https')) {
