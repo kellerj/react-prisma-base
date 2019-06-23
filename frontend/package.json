@@ -7,6 +7,7 @@
     "dev": "DOTENV_CONFIG_PATH=../backend node server.js",
     "build": "next build",
     "start": "next start",
+    "doc": "jsdoc -c ./jsdoc.config.js",
     "test": "NODE_ENV=test jest --watch"
   },
   "author": "",
@@ -66,7 +67,9 @@
     "eslint-plugin-react": "^7.13.0",
     "graphql-tools": "^4.0.0",
     "jest": "^24.8.0",
-    "jest-transform-graphql": "^2.1.0"
+    "jest-transform-graphql": "^2.1.0",
+    "jsdoc": "^3.6.2",
+    "jsdoc-memberof-namespace": "^2.2.0"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",

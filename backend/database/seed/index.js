@@ -1,3 +1,7 @@
+/**
+ * Database Seeding script - use defined prisma mutations
+ * (src/generated/prisma.graphql)
+ */
 /* eslint-disable import/no-extraneous-dependencies */
 const casual = require('casual');
 const db = require('../../src/prisma').bindings;

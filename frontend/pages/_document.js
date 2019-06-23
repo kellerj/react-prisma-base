@@ -4,11 +4,15 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import getConfig from 'next/config';
 
-console.log(getConfig());
+console.log(getConfig().publicRuntimeConfig);
 const { BACKEND_URL } = getConfig().publicRuntimeConfig;
 
 const cspBuilder = require('content-security-policy-builder');
 
+/**
+ * Content Security Policy Settings
+ * @namespace pages/_document
+ */
 const csp = cspBuilder({
   directives: {
     defaultSrc: "'none'",
@@ -22,7 +26,12 @@ const csp = cspBuilder({
   },
 });
 
-export default class MyDocument extends Document {
+/**
+ * Override class for building each document's HTML used to include the
+ * content security policy and custom style sheets.
+ * @class
+ */
+class CustomDocument extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
     const page = renderPage(App => props => sheet.collectStyles(<App {...props} />));
@@ -50,3 +59,5 @@ export default class MyDocument extends Document {
     );
   }
 }
+
+export default CustomDocument;

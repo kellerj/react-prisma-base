@@ -8,7 +8,7 @@ import '../styles/styles.scss';
 // } from '@fortawesome/free-solid-svg-icons';
 
 import Page from '../components/Page';
-import withData from '../lib/withData';
+import withApolloClient from '../lib/apolloClient';
 
 // library.add(faShoppingCart);
 // library.add(faCartPlus);
@@ -46,4 +46,4 @@ class ThisApp extends App {
   }
 }
 
-export default withData(ThisApp);
+export default withApolloClient(ThisApp);
