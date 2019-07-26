@@ -1,23 +1,31 @@
 # import * from '../src/generated/prisma.graphql'
 
+"Result type is a generic contract for all results which may be extended to include other data elements for specific operations."
 interface Result {
+  "Overall message from the result"
   message: String
   isError: Boolean!
   fieldErrors: [String!]!
   fieldMessages: [String!]!
 }
 
+"A result type for returning a message when no other data needs to be returned."
 type GeneralResult implements Result {
   message: String
+  "Whether this result indicates an error in processing the request."
   isError: Boolean!
+  "Array of field names (from the passed in QraphQL request which contained errors)"
   fieldErrors: [String!]!
+  "Array of messages for fields referenced in the above array.  This array's indexes will match the array above to identify the field to which this message applies."
   fieldMessages: [String!]!
 }
 
 type Mutation {
+  "Does something and returns a result"
   doSomething: GeneralResult!
 }
 
 type Query {
+  "Looks up something by something else and returns it"
   something(where: SomethingWhereUniqueInput!): Something
 }

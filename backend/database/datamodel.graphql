@@ -1,6 +1,13 @@
 
+
+"""
+Which is a something which stores things and is not very useful.
+"""
 type Something {
+  "Unique identifer of something"
   id: ID! @id
+  "A user-visible unique identifer of something"
   code: String! @unique
+  "Something's name"
   name: String!
 }
