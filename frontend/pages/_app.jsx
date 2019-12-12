@@ -1,5 +1,5 @@
 import React from 'react';
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import { ApolloProvider } from 'react-apollo';
 import '../styles/styles.scss';
 // import { library } from '@fortawesome/fontawesome-svg-core';
@@ -33,15 +33,13 @@ class ThisApp extends App {
     const { Component, apollo, pageProps } = this.props;
 
     return (
-      <Container>
-        <ApolloProvider client={apollo}>
-          <Page {...pageProps}>
-            {/* Component here is the component of the page in pages
-              - each one will get the query string as a props object. */}
-            <Component {...pageProps} />
-          </Page>
-        </ApolloProvider>
-      </Container>
+      <ApolloProvider client={apollo}>
+        <Page {...pageProps}>
+          {/* Component here is the component of the page in pages
+            - each one will get the query string as a props object. */}
+          <Component {...pageProps} />
+        </Page>
+      </ApolloProvider>
     );
   }
 }
