@@ -15,7 +15,7 @@ const handleNextJsRequest = app.getRequestHandler();
 function configureExpress() {
   const server = express();
 
-  server.get('*', (req, res) => handleNextJsRequest(req, res));
+  server.all('*', (req, res) => handleNextJsRequest(req, res));
 
   server.listen(process.env.FRONTEND_PORT, (err) => {
     if (err) throw err;
