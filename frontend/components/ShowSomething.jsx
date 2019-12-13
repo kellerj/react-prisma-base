@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import { Mutation, Query } from 'react-apollo';
+import React, { useState } from 'react';
+//import { Mutation, Query } from 'react-apollo';
+import { useMutation, useQuery } from '@apollo/react-hooks';
+
 import gql from 'graphql-tag';
 
 import { SET_ALERT, getMessageFromGraphQLError } from '../lib/clientState';
@@ -25,61 +27,53 @@ const DO_SOMETHING_MUTATION = gql`
   }
 `;
 
-export default class ShowSomething extends Component {
-  state = {
-    message: '',
-  }
+export const ShowSomething = () => {
+  const [message, setMessage] = useState('');
+  const [
+    setAlert,
+    { loading: setAlertLoading, error: setAlertError },
+  ] = useMutation(SET_ALERT);
+  const [
+    doSomething,
+    { loading: doSomethingLoading, error: doSomethingError },
+  ] = useMutation(DO_SOMETHING_MUTATION, {
+    onCompleted: (data) => {
+      console.log('Did Something');
+      console.log(jsonColorizer(stringify(data, null, 2)));
+      setMessage(data.doSomething.message);
+    }
+  });
+  const { loading: queryLoading, error: queryError, data } = useQuery(GET_SOMETHING, { variables: { code: '1' } });
 
-  render() {
-    return (
-      <Mutation
-        mutation={SET_ALERT}
-      >{setAlert => (
-        <Query query={GET_SOMETHING} variables={{ code: '1' }}>
-          {({ data, loading }) => {
-            if (loading) return <p>Loading...</p>;
-            if (!data.something) return <p>Nothing Found</p>;
-            return (
-              <Mutation
-                mutation={DO_SOMETHING_MUTATION}
-                onCompleted={({ doSomething }) => {
-                  console.log('Did Something');
-                  console.log(jsonColorizer(stringify(doSomething, null, 2)));
-                  this.setState({ message: doSomething.message });
-                }}
-              >
-                {(doSomething, { loading, error }) => (
-                  <div>
-                    <p>Something&apos;s Name: {data.something.name}</p>
-                    <p>
-                      <button
-                        type="button" onClick={async (e) => {
-                          e.preventDefault();
-                          console.log('Doing Something');
-                          await doSomething();
-                        }}
-                      >Click Me
-                      </button>
-                    </p>
-                    <p>Result: {this.state.message}</p>
-                    <p>
-                      <button
-                        type="button" onClick={(e) => {
-                          e.preventDefault();
-                          console.log('Alerting!');
-                          setAlert({ variables: { alertType: 'danger', alertContent: 'Please don\'t click that button!' } });
-                        }}
-                      >Show Alert
-                      </button>
-                    </p>
-                  </div>
-                )}
-              </Mutation>
-            );
+  if (queryLoading) return <p>Loading...</p>;
+  if (queryError) return <p>ERROR!...{queryError}</p>;
+  if (!data.something) return <p>Nothing Found</p>;
+  return (
+    <div>
+      <p>Something&apos;s Name: {data.something.name}</p>
+      <p>
+        <button
+          type="button" onClick={(e) => {
+            e.preventDefault();
+            console.log('Doing Something');
+            doSomething();
           }}
-        </Query>
-      )}
-      </Mutation>
-    );
-  }
+        >Click Me
+        </button>
+      </p>
+      <p>Result: {message}</p>
+      <p>
+        <button
+          type="button" onClick={(e) => {
+            e.preventDefault();
+            console.log('Alerting!');
+            setAlert({ variables: { alertType: 'danger', alertContent: 'Please don\'t click that button!' } });
+          }}
+        >Show Alert
+        </button>
+      </p>
+    </div>
+  );
 }
+
+export default ShowSomething;
