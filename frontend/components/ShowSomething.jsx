@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Container, Button, Row, Col, Badge, Form, FormGroup, Label, Input } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import gql from 'graphql-tag';
 import fetch from 'isomorphic-unfetch';
 
-import { SET_ALERT, getMessageFromGraphQLError } from '../lib/clientState';
+import { SET_ALERT, getMessageFromGraphQLError } from 'lib/clientState';
 
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
@@ -72,7 +73,7 @@ export const ShowSomething = () => {
               console.log('Doing Something');
               doSomething();
             }}
-          >Click Me
+          >Click Me <FontAwesomeIcon icon="arrow-right" />
           </Button>
         </Col>
         <Col>

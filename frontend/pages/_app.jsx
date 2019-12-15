@@ -2,15 +2,16 @@ import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from 'react-apollo';
 import '../styles/styles.scss';
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import {
-//   faShoppingCart, faCartPlus, faEdit, faTrashAlt, faUserCircle, faSearch,
-// } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
+// Find Icons Here: https://fontawesome.com/cheatsheet?from=io
+import {
+  faArrowRight//, faCartPlus, faEdit, faTrashAlt, faUserCircle, faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 
-import Page from '../components/Page';
-import withApolloClient from '../lib/apolloClient';
+import Page from 'components/Page';
+import withApolloClient from 'lib/apolloClient';
 
-// library.add(faShoppingCart);
+library.add(faArrowRight);
 // library.add(faCartPlus);
 // library.add(faEdit);
 // library.add(faTrashAlt);

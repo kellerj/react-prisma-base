@@ -4,7 +4,8 @@
   "description": "Application React Front End",
   "main": "server.js",
   "scripts": {
-    "dev": "DOTENV_CONFIG_PATH=../backend node server.js",
+    "dev": "DOTENV_CONFIG_PATH=../backend nodemon server.js",
+    "debug": "DOTENV_CONFIG_PATH=../backend nodemon --inspect server.js",
     "build": "next build",
     "start": "next start",
     "doc": "jsdoc -c ./jsdoc.config.js",
@@ -43,6 +44,7 @@
     "next-runtime-dotenv": "^1.2.0",
     "next-with-apollo": "^4.3.0",
     "node-sass": "^4.13.0",
+    "nodemon": "^2.0.2",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

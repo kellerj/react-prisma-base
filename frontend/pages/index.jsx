@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import ShowSomething from '../components/ShowSomething';
+import ShowSomething from 'components/ShowSomething';
 
 class Home extends PureComponent {
   render() {
