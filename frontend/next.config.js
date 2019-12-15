@@ -1,4 +1,5 @@
-const path = require('path')
+const path = require('path');
+const nextBuildId = require('next-build-id');
 
 require('dotenv-expand')(require('dotenv-safe').config({
   debug: true,
@@ -16,8 +17,9 @@ module.exports = withCSS(withSass({
     SERVER_BACKEND_URL: process.env.SERVER_BACKEND_URL,
   },
   webpack(config, options) {
-    config.resolve.alias['components'] = path.join(__dirname, 'components')
-    config.resolve.alias['lib'] = path.join(__dirname, 'lib')
-    return config
+    config.resolve.alias['components'] = path.join(__dirname, 'components');
+    config.resolve.alias['lib'] = path.join(__dirname, 'lib');
+    return config;
   },
+  generateBuildId: () => nextBuildId({ dir: __dirname, describe: true })
 }));

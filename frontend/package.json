@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "DOTENV_CONFIG_PATH=../backend nodemon server.js",
     "debug": "DOTENV_CONFIG_PATH=../backend nodemon --inspect server.js",
-    "build": "next build",
-    "start": "next start",
+    "build": "DOTENV_CONFIG_PATH=../backend next build",
+    "start": "node server.js",
     "doc": "jsdoc -c ./jsdoc.config.js",
     "test": "NODE_ENV=test jest --watch"
   },
@@ -41,6 +41,7 @@
     "json-stringify-safe": "^5.0.1",
     "lodash.debounce": "^4.0.8",
     "next": "^9.1.5",
+    "next-build-id": "^3.0.0",
     "next-runtime-dotenv": "^1.2.0",
     "next-with-apollo": "^4.3.0",
     "node-sass": "^4.13.0",
