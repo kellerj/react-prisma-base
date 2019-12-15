@@ -7,6 +7,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faArrowRight//, faCartPlus, faEdit, faTrashAlt, faUserCircle, faSearch,
 } from '@fortawesome/free-solid-svg-icons';
+import { ThemeProvider } from 'styled-components'
 
 import Page from 'components/Page';
 import withApolloClient from 'lib/apolloClient';
@@ -17,6 +18,8 @@ library.add(faArrowRight);
 // library.add(faTrashAlt);
 // library.add(faUserCircle);
 // library.add(faSearch);
+
+const theme = require('../styles/theme.js');
 
 class ThisApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -34,13 +37,15 @@ class ThisApp extends App {
     const { Component, apollo, pageProps } = this.props;
 
     return (
-      <ApolloProvider client={apollo}>
-        <Page {...pageProps}>
-          {/* Component here is the component of the page in pages
-            - each one will get the query string as a props object. */}
-          <Component {...pageProps} />
-        </Page>
-      </ApolloProvider>
+      <ThemeProvider theme={theme}>
+        <ApolloProvider client={apollo}>
+          <Page {...pageProps}>
+            {/* Component here is the component of the page in pages
+              - each one will get the query string as a props object. */}
+            <Component {...pageProps} />
+          </Page>
+        </ApolloProvider>
+      </ThemeProvider>
     );
   }
 }

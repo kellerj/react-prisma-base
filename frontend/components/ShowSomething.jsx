@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Container, Button, Row, Col, Badge, Form, FormGroup, Label, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import styled from 'styled-components'
 import gql from 'graphql-tag';
 import fetch from 'isomorphic-unfetch';
 
@@ -27,6 +27,19 @@ const DO_SOMETHING_MUTATION = gql`
       message
     }
   }
+`;
+
+const WhiteContainer = styled(Container)`
+  background-color: ${({ theme }) => theme.colors.containerBackground};
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid black;
+`;
+
+const SomethingForm = styled(Form)`
+  background-color: ${({ theme }) => theme.colors.containerBackground};
+  padding: 0.5rem;
+  border: 1px solid black;
 `;
 
 export const ShowSomething = () => {
@@ -60,12 +73,12 @@ export const ShowSomething = () => {
   if (!data.something) return <p>Nothing Found</p>;
 
   return (<>
-    <Container fluid={true} style={{marginBottom: '1rem'}}>
+    <WhiteContainer fluid>
       <Row>
         <Col>Something&apos;s Name: {data.something.name}</Col>
       </Row>
-    </Container>
-    <Container fluid={true} style={{marginBottom: '1rem'}}>
+    </WhiteContainer>
+    <WhiteContainer fluid>
       <Row>
         <Col>
           <Button onClick={(e) => {
@@ -80,8 +93,8 @@ export const ShowSomething = () => {
           Result: {message}<Badge>{count}</Badge>
         </Col>
       </Row>
-    </Container>
-    <Container fluid={true} style={{marginBottom: '1rem'}}>
+    </WhiteContainer>
+    <WhiteContainer fluid>
       <Row>
         <Col>
           <Button onClick={(e) => {
@@ -93,8 +106,8 @@ export const ShowSomething = () => {
           </Button>
         </Col>
       </Row>
-    </Container>
-    <Container fluid={true} style={{marginBottom: '1rem', backgroundColor: 'white'}}>
+    </WhiteContainer>
+    <WhiteContainer fluid>
       <Row>
         <Col>
           <Button onClick={(e) => {
@@ -112,8 +125,8 @@ export const ShowSomething = () => {
         </Col>
         <Col>API Result: {apiResult}</Col>
       </Row>
-    </Container>
-    <Form>
+    </WhiteContainer>
+    <SomethingForm>
       <FormGroup>
         <Label for="dataToPost">Data to Post to API</Label>
         <Input type="text" name="dataToPost" id="dataToPost" placeholder="Enter something here" />
@@ -141,8 +154,7 @@ export const ShowSomething = () => {
         <Label for="postResult">Result from the API</Label>
         <Input readOnly value={apiPostResult} />
       </FormGroup>
-    </Form>
-
+    </SomethingForm>
   </>);
 }
 

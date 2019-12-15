@@ -25,7 +25,7 @@ const GlobalStyleOverrides = createGlobalStyle`
     /* font-size: 2rem; */
   }
   a.nav-link {
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
   }
   .pagination-lg .page-link {
     /* font-size: 2rem; */
