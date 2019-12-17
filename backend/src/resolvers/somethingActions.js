@@ -18,6 +18,7 @@ const Query = {
  * @param {*} info Apollo info
  * @returns {GeneralResult} The results of the mutation.
  */
+// eslint-disable-next-line no-unused-vars
 const doSomething = async (parent, args, ctx, info) => {
   // const item = await ctx.db.mutation.createItem({
   //   data: {

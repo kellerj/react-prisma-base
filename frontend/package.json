@@ -39,6 +39,7 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.9.2",
     "isomorphic-unfetch": "^3.0.0",
+    "jest-runner-eslint": "^0.7.5",
     "json-colorizer": "^2.2.1",
     "json-stringify-safe": "^5.0.1",
     "lodash.debounce": "^4.0.8",
@@ -78,18 +79,6 @@
     "jest-transform-graphql": "^2.1.0",
     "jsdoc": "^3.6.3",
     "jsdoc-memberof-namespace": "^2.2.0"
-  },
-  "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
-    "testPathIgnorePatterns": [
-      "<rootDir>/.next/",
-      "<rootDir>/node_modules/"
-    ],
-    "transform": {
-      "\\.(gql|graphql)$": "jest-transform-graphql",
-      ".*": "babel-jest",
-      "^.+\\.js?$": "babel-jest"
-    }
   },
   "//": "This is our babel config, I prefer this over a .babelrc file",
   "babel": {

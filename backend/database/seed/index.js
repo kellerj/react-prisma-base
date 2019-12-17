@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Database Seeding script - use defined prisma mutations
  * (src/generated/prisma.graphql)

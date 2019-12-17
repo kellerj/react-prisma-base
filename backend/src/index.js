@@ -24,5 +24,6 @@ apollo.applyMiddleware({
 });
 
 app.listen({ port: process.env.BACKEND_PORT }, () => {
+  // eslint-disable-next-line no-console
   console.log(`🚀 Server ready at http://localhost:${process.env.BACKEND_PORT}${apollo.graphqlPath}`);
 });

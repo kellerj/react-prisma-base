@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * @module
  * @desc Authorization middleware controlling access to GraphQL endpoints

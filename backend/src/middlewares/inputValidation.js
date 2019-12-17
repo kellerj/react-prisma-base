@@ -17,7 +17,7 @@ const emailValidator = yup
 module.exports = shield({
   Query: {
     // eslint-disable-next-line no-shadow
-    something: inputRule(yup => yup.object({
+    something: inputRule((yup) => yup.object({
       where: yup.object({
         code: yup.string().required(),
       }).required(),

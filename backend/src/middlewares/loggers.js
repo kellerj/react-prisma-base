@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * @module
  * @desc GraphQL request/response logging middleware
