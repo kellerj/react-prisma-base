@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Router from 'next/router';
+import getConfig from 'next/config';
 import NProgress from 'nprogress';
+
+const { appName, instanceId } = getConfig().publicRuntimeConfig;
 
 Router.onRouteChangeChart = () => {
   console.log('onRouteChangeChart triggered');
@@ -19,7 +22,7 @@ class Header extends Component {
   render() {
     return (
       <>
-        <div />
+        <h1>{appName} - {instanceId}</h1>
       </>
     );
   }
