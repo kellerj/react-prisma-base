@@ -7,7 +7,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faArrowRight//, faCartPlus, faEdit, faTrashAlt, faUserCircle, faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components';
 
 import Page from 'components/Page';
 import withApolloClient from 'lib/apolloClient';

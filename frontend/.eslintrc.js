@@ -1,14 +1,15 @@
 module.exports = {
-  extends: 'airbnb',
-  plugins: [ 'react' ],
+  extends: 'airbnb/hooks',
+  plugins: [ 'import', 'react', 'react-hooks', 'jsx-a11y' ],
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 7,
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     }
   },
   rules: {
+    'semi': ['error', 'always'],
     'no-console': 'off',
     'spaced-comment': 'off',
     'no-underscore-dangle': 'off',
@@ -32,6 +33,8 @@ module.exports = {
       ignoreTrailingComments: true,
     }],
     'jsx-a11y/anchor-is-valid': 'off',
+    'react/jsx-uses-react' : 'error',
+    'react/jsx-uses-vars' : 'error',
     'react/jsx-indent': ['warn', 2],
     'react/jsx-indent-props': ['warn', 2],
     'react/jsx-no-literals': 'off',

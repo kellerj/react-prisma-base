@@ -6,8 +6,10 @@ import getConfig from 'next/config';
 
 import { Resolvers, Defaults } from './clientState';
 
+// This code can run on either tier, but we want to use the server configuration
+// for this URL if it is available.
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
-const backendUrl = serverRuntimeConfig.SERVER_BACKEND_URL || publicRuntimeConfig.BACKEND_URL;
+const backendUrl = serverRuntimeConfig.backendUrl || publicRuntimeConfig.backendUrl;
 
 let agent = new http.Agent();
 if (backendUrl.startsWith('https')) {

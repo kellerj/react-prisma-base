@@ -4,8 +4,8 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import getConfig from 'next/config';
 
-console.log(getConfig().publicRuntimeConfig);
-const { BACKEND_URL } = getConfig().publicRuntimeConfig;
+console.log(getConfig());
+const { backendUrl } = getConfig().publicRuntimeConfig;
 
 const cspBuilder = require('content-security-policy-builder');
 
@@ -22,7 +22,7 @@ const csp = cspBuilder({
     objectSrc: "'none'",
     mediaSrc: "'none'",
     frameSrc: "'none'",
-    connectSrc: ["'self'", BACKEND_URL],
+    connectSrc: ["'self'", backendUrl],
   },
 });
 

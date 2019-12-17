@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { Container, Button, Row, Col, Badge, Form, FormGroup, Label, Input } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import gql from 'graphql-tag';
 import fetch from 'isomorphic-unfetch';
 
+// eslint-disable-next-line no-unused-vars
 import { SET_ALERT, getMessageFromGraphQLError } from 'lib/clientState';
 
 const jsonColorizer = require('json-colorizer');
@@ -51,11 +52,13 @@ export const ShowSomething = () => {
   // create function to invoke the alert muration
   const [
     setAlert,
+    // eslint-disable-next-line no-unused-vars
     { loading: setAlertLoading, error: setAlertError },
   ] = useMutation(SET_ALERT);
   // create function to invoke the do something muration
   const [
     doSomething,
+    // eslint-disable-next-line no-unused-vars
     { loading: doSomethingLoading, error: doSomethingError },
   ] = useMutation(DO_SOMETHING_MUTATION, {
     onCompleted: (data) => {
@@ -118,7 +121,7 @@ export const ShowSomething = () => {
                 .then(text => {
                   console.log('REST result: ' + text);
                   setApiResult(text);
-                })
+                });
             }}
           >Call API Method
           </Button>
@@ -129,7 +132,8 @@ export const ShowSomething = () => {
     <SomethingForm>
       <FormGroup>
         <Label for="dataToPost">Data to Post to API</Label>
-        <Input type="text" name="dataToPost" id="dataToPost" placeholder="Enter something here" />
+        <Input type="text" name="dataToPost"
+          id="dataToPost" placeholder="Enter something here" />
       </FormGroup>
 
       <Button onClick={(e) => {
@@ -148,7 +152,7 @@ export const ShowSomething = () => {
           .then(result => {
             console.log('REST result: ' + JSON.stringify(result));
             setApiPostResult(result.result);
-          })
+          });
 }}>Submit</Button>
       <FormGroup>
         <Label for="postResult">Result from the API</Label>
@@ -156,6 +160,6 @@ export const ShowSomething = () => {
       </FormGroup>
     </SomethingForm>
   </>);
-}
+};
 
 export default ShowSomething;

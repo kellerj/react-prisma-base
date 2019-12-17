@@ -43,7 +43,8 @@ const Page = (props) => {
       <Body>
         <>
           <Alert
-            color={clientState && clientState.alertType} isOpen={clientState && clientState.alertOpen}
+            color={clientState && clientState.alertType}
+            isOpen={clientState && clientState.alertOpen}
             toggle={closeAlert}
           >
             {clientState && clientState.alertContent}
@@ -53,6 +54,6 @@ const Page = (props) => {
       </Body>
     </>
   );
-}
+};
 
 export default Page;

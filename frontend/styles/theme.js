@@ -3,4 +3,4 @@ module.exports = {
     containerBackground: 'white',
   },
   maxWidth: '1000px',
-}
+};

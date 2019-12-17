@@ -3,7 +3,7 @@ const nextBuildId = require('next-build-id');
 const {
   PHASE_DEVELOPMENT_SERVER,
   PHASE_PRODUCTION_BUILD,
-} = require('next/constants')
+} = require('next/constants');
 
 require('dotenv-expand')(require('dotenv-safe').config({
   debug: true,
@@ -19,23 +19,33 @@ module.exports = phase => {
   // when `next build` or `npm run build` is used
   const isProd = phase === PHASE_PRODUCTION_BUILD && process.env.INSTANCE_ID === 'prd';
   const isTestServer = phase === PHASE_PRODUCTION_BUILD && process.env.INSTANCE_ID !== 'prd';
+  const instanceId = process.env.INSTANCE_ID;
 
-  console.log(`isLocal:${isLocal} / isProd:${isProd} / isTestServer:${isTestServer}`)
+  console.log(`isLocal:${isLocal} / isProd:${isProd} / isTestServer:${isTestServer}`);
 
-  return withCSS(withSass({
+  const config = withCSS(withSass({
     publicRuntimeConfig: {
-      BACKEND_URL: process.env.BACKEND_URL,
+      backendUrl: process.env.BACKEND_URL,
       appName: process.env.APP_NAME,
-      instanceId: process.env.INSTANCE_ID,
+      instanceId,
     },
     serverRuntimeConfig: {
-      SERVER_BACKEND_URL: process.env.SERVER_BACKEND_URL,
+      backendUrl: process.env.SERVER_BACKEND_URL || process.env.BACKEND_URL,
     },
+    // eslint-disable-next-line no-unused-vars
     webpack(config, options) {
       config.resolve.alias['components'] = path.join(__dirname, 'components');
       config.resolve.alias['lib'] = path.join(__dirname, 'lib');
       return config;
     },
-    generateBuildId: () => nextBuildId({ dir: __dirname, describe: true })
+    generateBuildId: () => nextBuildId({ dir: __dirname, describe: true }),
   }));
+
+  if ( isLocal ) {
+    console.log(JSON.stringify(config, null, 2));
+  } else {
+    // There will be no secrets in the public config - so safe to dump that
+    console.log(JSON.stringify(config.publicRuntimeConfig, null, 2));
+  }
+  return config;
 };
