@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Router from 'next/router';
 import getConfig from 'next/config';
 import NProgress from 'nprogress';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Nav, NavItem, Navbar, NavbarBrand, NavbarToggler, NavbarText, Collapse, NavLink } from 'reactstrap';
 
 const { appName, instanceId } = getConfig().publicRuntimeConfig;
 
@@ -18,14 +20,25 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-class Header extends Component {
-  render() {
-    return (
-      <>
-        <h1>{appName} - {instanceId}</h1>
-      </>
-    );
-  }
-}
+const Header = () => {
+  return (
+    <Navbar dark expand
+      className="bg-dark">
+      <NavbarBrand>{appName} - {instanceId}</NavbarBrand>
+      <NavbarToggler />
+      <Collapse navbar>
+        <Nav navbar className="mr-auto">
+          <NavbarText>Other Navigation Links Can Go Here</NavbarText>
+        </Nav>
+        <Nav navbar>
+          <NavItem>
+            <NavLink href="/login">Login <FontAwesomeIcon icon="question-circle" /></NavLink>
+
+          </NavItem>
+        </Nav>
+      </Collapse>
+    </Navbar>
+  );
+};
 
 export default Header;
