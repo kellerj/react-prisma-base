@@ -25,6 +25,7 @@ module.exports = phase => {
 
   const config = withCSS(withSass({
     publicRuntimeConfig: {
+      frontendUrl: process.env.FRONTEND_URL,
       backendUrl: process.env.BACKEND_URL,
       appName: process.env.APP_NAME,
       instanceId,
