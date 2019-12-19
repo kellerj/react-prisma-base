@@ -1,7 +1,9 @@
 node_modules
 npm-debug.log
-/coverage
+coverage
 .next
 .sonarlint
 .env
 doc
+.scannerwork
+test-reports
