@@ -1,6 +1,6 @@
 module.exports = {
-  extends: 'airbnb/hooks',
-  plugins: [ 'import', 'react', 'react-hooks', 'jsx-a11y' ],
+  extends: ['airbnb/hooks', 'plugin:sonarjs/recommended'],
+  plugins: [ 'import', 'react', 'react-hooks', 'jsx-a11y', 'sonarjs' ],
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 7,
@@ -22,7 +22,7 @@ module.exports = {
     'no-unused-vars': [ 'error', {
       vars: 'all',
       args: 'after-used',
-      argsIgnorePattern: 'called|data',
+      argsIgnorePattern: 'called|data|loading|error',
     }],
     'max-len': ['warn', 100, 2, {
       ignoreUrls: true,

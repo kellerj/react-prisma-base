@@ -1,5 +1,6 @@
 module.exports = {
-  extends: 'airbnb-base',
+  plugins: ['sonarjs'],
+  extends: ['airbnb-base', 'plugin:sonarjs/recommended'],
   rules: {
     'no-console': 'warn',
     'spaced-comment': 'off',
