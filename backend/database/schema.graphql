@@ -28,4 +28,5 @@ type Mutation {
 type Query {
   "Looks up something by something else and returns it"
   something(where: SomethingWhereUniqueInput!): Something
+  getSomethingElse: GeneralResult!
 }

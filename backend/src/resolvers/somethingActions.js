@@ -4,9 +4,15 @@
  */
 const { forwardTo } = require('prisma-binding');
 
+const getSomethingElse = async (parent, args, ctx, info) => {
+  console.log('Got Something Else');
+  return { message: 'Got Something Else' };
+};
+
 const Query = {
 
   something: forwardTo('db'),
+  getSomethingElse,
 };
 
 /**

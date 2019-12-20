@@ -11,6 +11,7 @@
     "db:deploy": "dotenv prisma deploy",
     "db:seed": "dotenv prisma seed",
     "db:reset": "dotenv prisma reset && dotenv prisma seed",
+    "token": "jwt --algorithm HS384 --encode -s jwt-signing-secret --jwt '{\"sub\":\"auser\"}'",
     "generate": "dotenv prisma generate",
     "postinstall": "npm run generate",
     "prisma": "docker run --name prisma --rm -d -p 4466:4466 --env PRISMA_CONFIG_PATH=/tmp/PRISMA_CONFIG.yml -v $PWD/PRISMA_CONFIG.yml:/tmp/PRISMA_CONFIG.yml prismagraphql/prisma:1.34",

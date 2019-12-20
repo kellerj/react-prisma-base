@@ -33,8 +33,7 @@ const logRequest = async (resolve, root, args, context, info) => {
     variableValues: info.variableValues,
   }, null, 2))}`);
   console.log(`GraphQL Request Args: ${jsonColorizer(stringify(args))}`);
-  const result = await resolve(root, args, context, info);
-  return result;
+  return resolve(root, args, context, info);
 };
 
 const logRequestResult = async (resolve, root, args, context, info) => {

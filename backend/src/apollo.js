@@ -11,28 +11,32 @@ const schema = require('./schema');
 
 /**
  * Express Middleware Function: Decodes and verifies the JWT from the `token` cookie.
- * Sets `userId` of the decoded token into the request.
+ * Sets `sub` (subject) of the decoded token into the request.
  *
  * @param {*} req Express request object
- * @returns the `userId` from the JWT token
+ * @returns the `sub` from the JWT token
  */
 const decodeJwt = (req) => {
-  console.log('JWT Middleware');
+  // console.log('JWT Middleware');
   // console.log(req);
-  const { token } = req.cookies;
+  // We look for either the cookie or the header - the latter mainly to allow use via the GraphQL Playground
+  const apiAuthToken = req.cookies.apiAuthToken || req.headers.apiauthtoken;
   // console.log(`Cookies: ${JSON.stringify(req.cookies)}`);
-  // console.log(`JWT Token: ${token}`);
-  if (token) {
-    const decodedToken = jwt.verify(token, process.env.APP_SECRET);
+  // console.log(`Headers: ${jsonColorizer(req.headers)}`);
+  // console.log(`JWT Token: ${apiAuthToken}`);
+  if (apiAuthToken) {
+    const decodedToken = jwt.verify(apiAuthToken, process.env.JWT_SECRET);
     console.log(`Decoded Token: ${jsonColorizer(decodedToken)}`);
-    req.userId = decodedToken.userId;
-    return decodedToken.userId;
+    req.userId = decodedToken.sub;
+    return decodedToken.sub;
   }
+  console.log('No API Auth Token Found');
+
   return null;
 };
 
 const addUserToContext = async (req, userId, db) => {
-  console.log('User Middleware');
+  // console.log('User Middleware');
   // console.log(req);
   if (req.userId) {
     // req.user = await db.query.user({ where: { id: req.userId } }, '{ id name email permissions }');
@@ -61,38 +65,15 @@ const playground = {
     'prettier.printWidth': 100,
     'prettier.tabWidth': 2,
     'prettier.useTabs': false,
-    'request.credentials': 'same-origin',
+    'request.credentials': 'include',
     'schema.polling.enable': true,
     'schema.polling.endpointFilter': `*${process.env.BACKEND_URL}*`,
     'schema.polling.interval': 20000,
     'schema.disableComments': true,
     'tracing.hideTracingResponse': true,
   },
-  tabs: [
-    {
-      endpoint: process.env.BACKEND_URL,
-      name: 'Get Something',
-      query: `query GET_SOMETHING($code: String!) {
-  something(where: { code: $code }) {
-    id
-    code
-    name
-  }
-}
-      `,
-      variables: JSON.stringify({ code: '1' }, null, 2),
-    },
-    {
-      endpoint: process.env.BACKEND_URL,
-      name: 'Do Something',
-      query: `mutation DO_SOMETHING_MUTATION {
-  doSomething {
-    message
-  }
-}
-      `,
-    },
-  ],
+  // eslint-disable-next-line global-require
+  tabs: require('./playground_tabs'),
 };
 
 // Create server
@@ -104,6 +85,14 @@ function createServer() {
     introspection: process.env.GRAPHQL_PLAYGROUND_ENABLED === 'true',
     playground: (process.env.GRAPHQL_PLAYGROUND_ENABLED === 'true') ? playground : false,
     debug: process.env.GRAPHQL_DEBUG === 'true',
+    onHealthCheck: () => new Promise((resolve, reject) => {
+      // Replace the `true` in this conditional with more specific checks!
+      if (true) {
+        resolve();
+      } else {
+        reject();
+      }
+    }),
   });
 }
 

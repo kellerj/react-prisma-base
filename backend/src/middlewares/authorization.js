@@ -81,11 +81,13 @@ const traceAndDeny = rule({
 module.exports = shield({
   Query: {
     something: allow,
-    // somethingElse: isAdmin,
+    getSomethingElse: isAuthenticated,
   },
   Mutation: {
     doSomething: allow,
   },
+  // Each property on an object is checked.  You must be allowed to call the Query or Mutation *AND* access the resulting properties.
+  // These could be expanded to allow access to attribute-level restrictions.
   Something: allow,
   GeneralResult: allow,
   // AggregateSomething: allow,
