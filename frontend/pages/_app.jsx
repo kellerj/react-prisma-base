@@ -17,12 +17,12 @@ import { ThemeProvider } from 'styled-components';
 import Page from 'components/Page';
 import withApolloClient from 'lib/apolloClient';
 
+import theme from '../styles/theme.js';
+
 // Loads these into the bundle for use by the <FontAwesomeIcon> tag
 library.add(faArrowRight);
 library.add(faUserCircle);
 library.add(faQuestionCircle);
-
-const theme = require('../styles/theme.js');
 
 class ThisApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -33,13 +33,14 @@ class ThisApp extends App {
     // expose the query string data to the components
     pageProps.query = ctx.query;
     pageProps.pathname = ctx.pathname;
+    pageProps.loggedIn = ctx.req && !!ctx.req.user;
     pageProps.user = ctx.req && ctx.req.user;
     return { pageProps };
   }
 
   render() {
     const { Component, apollo, pageProps } = this.props;
-    console.log(JSON.stringify(pageProps));
+    // console.log(JSON.stringify(pageProps));
 
     return (
       <ThemeProvider theme={theme}>

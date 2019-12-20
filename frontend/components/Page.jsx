@@ -39,7 +39,7 @@ const Page = (props) => {
     <>
       <Meta />
       <GlobalStyleOverrides />
-      <Header pathname={props.pathname} />
+      <Header pathname={props.pathname} {...props} />
       <Body>
         <>
           <Alert

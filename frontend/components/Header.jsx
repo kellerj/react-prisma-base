@@ -20,7 +20,25 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-const Header = () => {
+const LoginNavItem = (props) => {
+  if ( props.loggedIn ) {
+    return (<>
+      <NavItem>
+        <NavbarText>Hello, {props.user.name}</NavbarText>
+      </NavItem>
+      <NavItem>
+        <NavLink href="/Logout">Logout <FontAwesomeIcon icon="user-circle" title={props.user.id} /></NavLink>
+      </NavItem>
+    </>);
+  }
+  return (
+    <NavItem>
+      <NavLink href="/login">Login <FontAwesomeIcon icon="question-circle" /></NavLink>
+    </NavItem>
+  );
+};
+
+const Header = (props) => {
   return (
     <Navbar dark expand
       className="bg-dark">
@@ -31,10 +49,7 @@ const Header = () => {
           <NavbarText>Other Navigation Links Can Go Here</NavbarText>
         </Nav>
         <Nav navbar>
-          <NavItem>
-            <NavLink href="/login">Login <FontAwesomeIcon icon="question-circle" /></NavLink>
-
-          </NavItem>
+          <LoginNavItem user={props.user} loggedIn={props.loggedIn} />
         </Nav>
       </Collapse>
     </Navbar>
