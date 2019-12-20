@@ -33,11 +33,13 @@ class ThisApp extends App {
     // expose the query string data to the components
     pageProps.query = ctx.query;
     pageProps.pathname = ctx.pathname;
+    pageProps.user = ctx.req && ctx.req.user;
     return { pageProps };
   }
 
   render() {
     const { Component, apollo, pageProps } = this.props;
+    console.log(JSON.stringify(pageProps));
 
     return (
       <ThemeProvider theme={theme}>

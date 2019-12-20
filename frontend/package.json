@@ -48,7 +48,7 @@
     "node-sass": "^4.13.0",
     "nprogress": "^0.2.0",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
+    "passport-custom": "^1.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-adopt": "^0.6.0",

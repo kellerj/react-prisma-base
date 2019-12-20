@@ -3,6 +3,10 @@
  * @module server
  */
 const express = require('express');
+// var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var {Strategy} = require('passport-custom');
+
 const next = require('next');
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -14,6 +18,38 @@ const handleNextJsRequest = app.getRequestHandler();
  */
 function configureExpress() {
   const server = express();
+
+  passport.use(new Strategy(function (req, done) {
+    return done(null, { id: "auser", name: "Logged In User"} );
+  }));
+  passport.serializeUser(function(user, cb) {
+    // console.log(`serializeUser: ${JSON.stringify(user)}`);
+    cb(null, user.id);
+  });
+
+  passport.deserializeUser(function(id, cb) {
+    // console.log(`deserializeUser: ${JSON.stringify(id)}`);
+    cb(null, { id: "auser", name: "Logged In User"});
+  });
+
+  // server.use(bodyParser.json());
+  // server.use(bodyParser.urlencoded({ extended: false }));
+  // server.use(cookieParser());
+  server.use(require('express-session')({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false
+  }));
+  server.use(passport.initialize());
+  server.use(passport.session());
+  server.get('/login',
+    passport.authenticate('custom', { successRedirect: '/', failureRedirect: '/_error' } )
+  );
+
+  // server.get('/login', cas.authenticate(passport));
+  // server.get('/logout', cas.authenticate(passport));
+
+  // server.get('/mgt/health', status.health());
 
   server.all('*', (req, res) => handleNextJsRequest(req, res));
 
