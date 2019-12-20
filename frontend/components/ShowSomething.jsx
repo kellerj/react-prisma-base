@@ -190,12 +190,15 @@ export const ShowSomething = () => {
           body:    JSON.stringify({ dataToPost: e.target.form.dataToPost.value }),
           headers: { 'Content-Type': 'application/json' }
         })
-          .then(res => res.json())
+          .then(res => {
+            if ( res.status === 200 ) return res.json();
+            return res.text();
+          })
           .then(result => {
             console.log('REST result: ' + JSON.stringify(result));
-            setApiPostResult(result.result);
+            setApiPostResult(result.result || result);
           });
-}}>Submit</Button>
+        }}>Submit</Button>
       <FormGroup>
         <Label for="postResult">Result from the API</Label>
         <Input readOnly value={apiPostResult} />

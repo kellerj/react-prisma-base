@@ -1,3 +1,5 @@
+import authn from './authn';
+
 export const somethingHandler = (req, res) => {
   if ( req.method === 'GET' ) {
     return res.status(200).end('Got Something from API!');
@@ -6,4 +8,4 @@ export const somethingHandler = (req, res) => {
   }
 };
 
-export default somethingHandler;
+export default authn(somethingHandler);
