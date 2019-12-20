@@ -3,38 +3,26 @@
  * @module server
  */
 const express = require('express');
-// var cookieParser = require('cookie-parser');
-const passport = require('passport');
-const { Strategy } = require('passport-custom');
-
-passport.use(new Strategy(function (req, done) {
-  return done(null, { id: "auser", name: "Logged In User"} );
-}));
-passport.serializeUser(function(user, cb) {
-  // console.log(`serializeUser: ${JSON.stringify(user)}`);
-  cb(null, user.id);
-});
-
-passport.deserializeUser(function(id, cb) {
-  // console.log(`deserializeUser: ${JSON.stringify(id)}`);
-  cb(null, { id: "auser", name: "Logged In User"});
-});
-
 const next = require('next');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handleNextJsRequest = app.getRequestHandler();
+
+const authMethod = dev ? 'custom' : 'somethingElse';
+require(`./lib/auth-${authMethod}`).configure(passport);
+
+// Signing secret for the token, must be shared by the backend server
+const jwtSecret = process.env.JWT_SECRET;
 
 /**
  * Creates the Express server and sets up any needed routes before starting the server.
  */
 function configureExpress() {
   const server = express();
-
-  // server.use(bodyParser.json());
-  // server.use(bodyParser.urlencoded({ extended: false }));
-  // server.use(cookieParser());
+  // Set up local session management needed for passport
   server.use(require('express-session')({
       secret: process.env.SESSION_SECRET,
       resave: false,
@@ -42,12 +30,30 @@ function configureExpress() {
   }));
   server.use(passport.initialize());
   server.use(passport.session());
-  server.get('/login',
-    passport.authenticate('custom', { successRedirect: '/', failureRedirect: '/_error' } )
-  );
 
-  // server.get('/login', cas.authenticate(passport));
+  // Login module which creates the needed JWT token which can authN against the back end
+  server.get('/login', (req, res, next) => {
+    passport.authenticate(
+      require(`./lib/auth-${authMethod}`).passportAuthMethod,
+      { failureRedirect: '/_error' },
+      // eslint-disable-next-line no-unused-vars
+      (err, user, info) => {
+        // eslint-disable-next-line no-unused-vars
+        req.logIn(user, (err) => {
+          const token = jwt.sign({}, jwtSecret,
+            { expiresIn: '8h',
+              algorithm: 'HS384',
+              subject: req.user.id,
+              issuer: `${process.env.APP_NAME}-${process.env.INSTANCE_ID}` });
+          res.cookie('apiAuthToken', token);
+          res.redirect('/');
+        });
+      })(req, res, next);
+  });
+
+  // disconnect the login session and kill the cookie
   server.get('/logout', (req, res) => {
+    res.cookie('apiAuthToken', '', {maxAge: -1});
     req.logout();
     res.redirect('/');
   });

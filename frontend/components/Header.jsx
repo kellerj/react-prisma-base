@@ -27,7 +27,7 @@ const LoginNavItem = (props) => {
         <NavbarText>Hello, {props.user.name}</NavbarText>
       </NavItem>
       <NavItem>
-        <NavLink href="/Logout">Logout <FontAwesomeIcon icon="user-circle" title={props.user.id} /></NavLink>
+        <NavLink href="/logout">Logout <FontAwesomeIcon icon="user-circle" title={props.user.id} /></NavLink>
       </NavItem>
     </>);
   }
