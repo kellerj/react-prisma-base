@@ -23,10 +23,10 @@ type GeneralResult implements Result {
 type Mutation {
   "Does something and returns a result"
   doSomething: GeneralResult!
+  doSomethingElse: GeneralResult!
 }
 
 type Query {
   "Looks up something by something else and returns it"
   something(where: SomethingWhereUniqueInput!): Something
-  getSomethingElse: GeneralResult!
 }

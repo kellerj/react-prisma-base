@@ -4,15 +4,9 @@
  */
 const { forwardTo } = require('prisma-binding');
 
-const getSomethingElse = async (parent, args, ctx, info) => {
-  console.log('Got Something Else');
-  return { message: 'Got Something Else' };
-};
-
 const Query = {
 
   something: forwardTo('db'),
-  getSomethingElse,
 };
 
 /**
@@ -40,8 +34,14 @@ const doSomething = async (parent, args, ctx, info) => {
   return { message: 'This Did Something' };
 };
 
+const doSomethingElse = async (parent, args, ctx, info) => {
+  console.log('Did Something Else');
+  return { message: 'Got Something Else' };
+};
+
 const Mutation = {
   doSomething,
+  doSomethingElse,
 };
 
 module.exports = {

@@ -32,22 +32,22 @@ mutation DO_SOMETHING_MUTATION {
   },
   {
     endpoint: process.env.BACKEND_URL,
-    name: 'Get Something Else',
+    name: 'Do Something Else',
     query: `
-query GET_SOMETHING_ELSE {
-  getSomethingElse {
+mutation DO_SOMETHING_MUTATION {
+  doSomethingElse {
     message
   }
 }
-    `,
+        `,
     headers: authHeaders,
   },
   {
     endpoint: process.env.BACKEND_URL,
-    name: 'Get Something Else - no auth',
+    name: 'Do Something Else - no auth',
     query: `
-query GET_SOMETHING_ELSE {
-  getSomethingElse {
+mutation DO_SOMETHING_ELSE_MUTATION {
+  doSomethingElse {
     message
   }
 }

@@ -19,7 +19,9 @@ const {
  */
 const isAuthenticated = rule({
   cache: 'contextual',
-})(async (parent, args, ctx, info) => !!ctx.req.userId);
+})(async (parent, args, ctx, info) => (
+  !!ctx.req.userId || 'You must be logged in to perform this action.'
+));
 
 const isAdmin = rule({
   cache: 'contextual',
@@ -81,10 +83,10 @@ const traceAndDeny = rule({
 module.exports = shield({
   Query: {
     something: allow,
-    getSomethingElse: isAuthenticated,
   },
   Mutation: {
     doSomething: allow,
+    doSomethingElse: isAuthenticated,
   },
   // Each property on an object is checked.  You must be allowed to call the Query or Mutation *AND* access the resulting properties.
   // These could be expanded to allow access to attribute-level restrictions.
