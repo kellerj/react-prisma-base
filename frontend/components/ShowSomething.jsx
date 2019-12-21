@@ -9,7 +9,7 @@ import fetch from 'isomorphic-unfetch';
 // eslint-disable-next-line no-unused-vars
 import { SET_ALERT, getMessageFromGraphQLError } from 'lib/clientState';
 
-const jsonColorizer = require('json-colorizer');
+// const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
 
 const GET_SOMETHING = gql`
@@ -190,10 +190,7 @@ export const ShowSomething = () => {
           body:    JSON.stringify({ dataToPost: e.target.form.dataToPost.value }),
           headers: { 'Content-Type': 'application/json' }
         })
-          .then(res => {
-            if ( res.status === 200 ) return res.json();
-            return res.text();
-          })
+          .then(res => (res.ok ? res.json() : { status: res.status, message: res.text() }))
           .then(result => {
             console.log('REST result: ' + JSON.stringify(result));
             setApiPostResult(result.result || result);
