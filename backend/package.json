@@ -10,7 +10,7 @@
     "db:admin": "dotenv prisma admin",
     "db:deploy": "dotenv prisma deploy",
     "db:seed": "dotenv prisma seed",
-    "db:reset": "dotenv prisma reset && dotenv prisma seed",
+    "db:reset": "dotenv prisma reset -- --force && dotenv prisma seed",
     "token": "jwt --algorithm HS384 --encode -s jwt-signing-secret --jwt '{\"sub\":\"auser\"}'",
     "generate": "dotenv prisma generate",
     "postinstall": "npm run generate",
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "babel-jest": "^24.9.0",
+    "babel-eslint": "^10.0.3",
     "casual": "^1.6.2",
     "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
