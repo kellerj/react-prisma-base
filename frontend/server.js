@@ -26,7 +26,8 @@ function configureExpress() {
   server.use(require('express-session')({
       secret: process.env.SESSION_SECRET,
       resave: false,
-      saveUninitialized: false
+      saveUninitialized: false,
+      cookie: { maxAge: 8 * 60 * 60 * 1000},
   }));
   server.use(passport.initialize());
   server.use(passport.session());
@@ -45,7 +46,7 @@ function configureExpress() {
               algorithm: 'HS384',
               subject: req.user.id,
               issuer: `${process.env.APP_NAME}-${process.env.INSTANCE_ID}` });
-          res.cookie('apiAuthToken', token);
+          res.cookie('apiAuthToken', token, { maxAge: 8 * 60 * 60 * 1000});
           res.redirect('/');
         });
       })(req, res, next);
@@ -55,6 +56,7 @@ function configureExpress() {
   server.get('/logout', (req, res) => {
     res.cookie('apiAuthToken', '', {maxAge: -1});
     req.logout();
+    req.session.destroy();
     res.redirect('/');
   });
 
