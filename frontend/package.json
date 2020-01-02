@@ -9,7 +9,9 @@
     "build": "DOTENV_CONFIG_PATH=../backend next build",
     "start": "node server.js",
     "doc": "jsdoc -c ./jsdoc.config.js",
-    "test": "NODE_ENV=test jest --watch",
+    "test": "NODE_ENV=test jest --coverage",
+    "test:watch": "NODE_ENV=test jest --watch",
+    "sonar": "sonar-scanner -Dsonar.projectBaseDir=.. -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_USER -Dsonar.password=$SONAR_PASSWORD",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -83,7 +85,8 @@
     "jsdoc": "^3.6.3",
     "jsdoc-memberof-namespace": "^2.2.0",
     "next-build-id": "^3.0.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "sonar-scanner": "^3.1.0"
   },
   "//": "This is our babel config, I prefer this over a .babelrc file",
   "babel": {

@@ -25,7 +25,10 @@ module.exports = {
     },
   ],
   verbose: true,
-  collectCoverage: false,
+  collectCoverage: true,
   testEnvironment: 'node',
   coverageReporters: ['lcov', 'text-summary', 'text', 'html'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/coverage', '<rootDir>/.next', '<rootDir>/node_modules',
+  ],
 };
