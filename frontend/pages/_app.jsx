@@ -15,7 +15,8 @@ config.autoAddCss = false;
 import { ThemeProvider } from 'styled-components';
 
 import Page from 'components/Page';
-import withApolloClient from 'lib/apolloClient';
+import { withApollo } from '../lib/apollo';
+// import withApolloClient from 'lib/apolloClient';
 
 import theme from '../styles/theme.js';
 
@@ -56,4 +57,4 @@ class ThisApp extends App {
   }
 }
 
-export default withApolloClient(ThisApp);
+export default withApollo(ThisApp);
