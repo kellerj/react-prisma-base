@@ -7,5 +7,10 @@
 			"path": "backend"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.exclude": {
+			"**/.next": true
+		},
+		"editor.wordWrapColumn": 120
+	}
 }
