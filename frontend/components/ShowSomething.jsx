@@ -65,6 +65,7 @@ const Red = styled.span`
 
 export const ShowSomething = () => {
   // Create state variables and update methods
+  // NOSONAR
   const [message, setMessage] = useState('');
   const [otherMessage, setOtherMessage] = useState('');
   const [count, setCount] = useState(0);
@@ -105,6 +106,7 @@ export const ShowSomething = () => {
       setAlert({ variables: { alertType: 'danger', alertContent: `Error while performing action: ${getMessageFromGraphQLError(err)}` } });
     }
   });
+  // NOSONAREND
   // call GraphQL query
   const { loading: queryLoading, error: queryError, data } = useQuery(GET_SOMETHING, { variables: { code: '1' } });
 
