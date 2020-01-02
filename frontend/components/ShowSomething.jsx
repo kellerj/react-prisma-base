@@ -109,7 +109,7 @@ export const ShowSomething = () => {
   const { loading: queryLoading, error: queryError, data } = useQuery(GET_SOMETHING, { variables: { code: '1' } });
 
   if (queryLoading) return <p>Loading...</p>;
-  if (queryError) return <p>ERROR!...{queryError}</p>;
+  if (queryError) return <p>ERROR!...{JSON.stringify(queryError)}</p>;
   if (!data.something) return <p>Nothing Found</p>;
   return (<>
     <WhiteRow>
