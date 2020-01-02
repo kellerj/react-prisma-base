@@ -27,7 +27,7 @@ function configureExpress() {
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: 8 * 60 * 60 * 1000},
+      cookie: { maxAge: process.env.SESSION_EXPIRE_HOURS * 60 * 60 * 1000},
   }));
   server.use(passport.initialize());
   server.use(passport.session());
@@ -42,11 +42,11 @@ function configureExpress() {
         // eslint-disable-next-line no-unused-vars
         req.logIn(user, (err) => {
           const token = jwt.sign({}, jwtSecret,
-            { expiresIn: '8h',
+            { expiresIn: process.env.SESSION_EXPIRE_HOURS + 'h',
               algorithm: 'HS384',
               subject: req.user.id,
               issuer: `${process.env.APP_NAME}-${process.env.INSTANCE_ID}` });
-          res.cookie('apiAuthToken', token, { maxAge: 8 * 60 * 60 * 1000});
+          res.cookie('apiAuthToken', token, { maxAge: process.env.SESSION_EXPIRE_HOURS * 60 * 60 * 1000});
           res.redirect('/');
         });
       })(req, res, next);
