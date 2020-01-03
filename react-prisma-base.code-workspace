@@ -11,6 +11,9 @@
 		"files.exclude": {
 			"**/.next": true
 		},
-		"editor.wordWrapColumn": 120
+		"editor.wordWrapColumn": 120,
+		"cSpell.words": [
+			"cryptr"
+		]
 	}
 }
