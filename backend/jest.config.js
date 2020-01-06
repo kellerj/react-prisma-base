@@ -28,6 +28,7 @@ module.exports = {
   collectCoverage: true,
   testEnvironment: 'node',
   coverageReporters: ['lcov', 'text-summary', 'text', 'html'],
+  testResultsProcessor: 'jest-bamboo-reporter',
   coveragePathIgnorePatterns: [
     '<rootDir>/coverage', '<rootDir>/.next', '<rootDir>/node_modules',
   ],

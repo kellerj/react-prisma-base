@@ -48,8 +48,8 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "babel-jest": "^24.9.0",
     "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
     "casual": "^1.6.2",
     "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -58,6 +58,7 @@
     "eslint-plugin-sonarjs": "^0.5.0",
     "graphql-cli": "^3.0.14",
     "jest": "^24.9.0",
+    "jest-bamboo-reporter": "^1.2.1",
     "jest-runner-eslint": "^0.7.5",
     "jest-transform-graphql": "^2.1.0",
     "jsdoc": "^3.6.3",

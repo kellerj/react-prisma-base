@@ -25,5 +25,6 @@ module.exports = {
   verbose: true,
   collectCoverage: false,
   testEnvironment: 'node',
+  testResultsProcessor: 'jest-bamboo-reporter',
   coverageReporters: ['lcov', 'text-summary', 'text', 'html'],
 };
