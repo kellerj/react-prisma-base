@@ -1,9 +1,9 @@
 import React from 'react';
 import ShowSomething from 'components/ShowSomething';
 
-const Home = () => (
+const Home = (props) => (
   <div>
-    <ShowSomething />
+    <ShowSomething {...props}/>
   </div>
 );
 

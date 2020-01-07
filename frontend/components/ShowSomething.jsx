@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import gql from 'graphql-tag';
 import fetch from 'isomorphic-unfetch';
 
+import PermissionCheck from './support/PermissionCheck';
+
 // eslint-disable-next-line no-unused-vars
 import { SET_ALERT, getMessageFromGraphQLError } from 'lib/clientState';
 
@@ -63,7 +65,7 @@ const Red = styled.span`
   font-weight: bold;
 `;
 
-export const ShowSomething = () => {
+export const ShowSomething = (props) => {
   // Create state variables and update methods
   // NOSONAR
   const [message, setMessage] = useState('');
@@ -143,6 +145,13 @@ export const ShowSomething = () => {
       </Col>
       <Col>
           Result: {doSomethingElseError ? <Red>{getMessageFromGraphQLError(doSomethingElseError)}</Red> : otherMessage}
+      </Col>
+    </WhiteRow>
+    <WhiteRow>
+      <Col>
+        <PermissionCheck user={props.user}>
+          You can only see this when logged in!
+        </PermissionCheck>
       </Col>
     </WhiteRow>
     <WhiteRow>
