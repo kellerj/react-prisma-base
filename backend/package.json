@@ -19,9 +19,7 @@
     "generate": "dotenv prisma generate",
     "postinstall": "npm run generate",
     "prisma": "docker run --name prisma --rm -d -p 4466:4466 --env PRISMA_CONFIG_PATH=/tmp/PRISMA_CONFIG.yml -v $PWD/PRISMA_CONFIG.yml:/tmp/PRISMA_CONFIG.yml prismagraphql/prisma:1.34",
-    "prisma:stop": "docker stop prisma",
-    "encrypt": "node -e \"const Cryptr = require('cryptr'); console.log((new Cryptr(process.env.APP_CONFIG_KEY)).encrypt(process.argv[1]))\"",
-    "decrypt": "node -e \"const Cryptr = require('cryptr'); console.log((new Cryptr(process.env.APP_CONFIG_KEY)).decrypt(process.argv[1]))\""
+    "prisma:stop": "docker stop prisma"
   },
   "dependencies": {
     "apollo-server-express": "^2.9.13",
@@ -29,7 +27,6 @@
     "babel-preset-env": "^1.7.0",
     "bcryptjs": "2.4.3",
     "cookie-parser": "^1.4.4",
-    "cryptr": "^6.0.1",
     "dotenv-cli": "^3.1.0",
     "dotenv-expand": "^5.1.0",
     "dotenv-safe": "^8.2.0",
