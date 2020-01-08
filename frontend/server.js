@@ -3,9 +3,12 @@
  * @module server
  */
 const express = require('express');
+const bodyParser = require('body-parser');
 const next = require('next');
+const getConfig = require('next/config').default;
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const helmet = require('helmet');
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -22,6 +25,32 @@ const jwtSecret = process.env.JWT_SECRET;
  */
 function configureExpress() {
   const server = express();
+  // Needed only to parse the CSP report.
+  server.use(bodyParser.json({
+    type: ['json', 'application/csp-report']
+  }));
+  // Set up rules which prevent embedding of the application into other sites
+  // and disallow the page from contacting sites other than itself and the backend server
+  const { backendUrl } = getConfig().publicRuntimeConfig;
+  server.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'none'"],
+          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          imgSrc: ['*'],
+          objectSrc: ["'none'"],
+          mediaSrc: ["'none'"],
+          frameSrc: ["'none'"],
+          connectSrc: ["'self'", backendUrl],
+          reportUri: '/csp-violation',
+        },
+        reportOnly: false,//process.env.NODE_ENV === 'development',
+    },
+    frameguard: {
+      action: 'deny',
+    }
+  }));
   // Set up local session management needed for passport
   server.use(require('express-session')({
       secret: process.env.SESSION_SECRET,
@@ -60,10 +89,21 @@ function configureExpress() {
     res.redirect('/');
   });
 
-  // server.get('/mgt/health', status.health());
+  // Log any instances of the CSP rules being violated
+  server.post('/csp-violation', (req, res) => {
+    if (req.body) {
+      console.log('CSP Violation: ', req.body);
+    } else {
+      console.log('CSP Violation: No data received!');
+    }
 
+    res.status(204).end();
+  });
+
+  // Pass anything not covered by the above to Next.js
   server.all('*', (req, res) => handleNextJsRequest(req, res));
 
+  // Start the server
   server.listen(process.env.FRONTEND_PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on ${process.env.FRONTEND_URL}`);

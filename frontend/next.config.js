@@ -40,6 +40,7 @@ module.exports = phase => {
       return config;
     },
     generateBuildId: () => nextBuildId({ dir: __dirname, describe: true }),
+    poweredByHeader: false,
   }));
 
   if ( isLocal ) {
