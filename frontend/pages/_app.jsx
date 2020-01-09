@@ -12,15 +12,20 @@ config.autoAddCss = false;
 import '../lib/icons';
 import theme from '../styles/theme.js';
 import log from 'loglevel';
+import getConfig from 'next/config';
+
+const { loggingUUID } = getConfig().publicRuntimeConfig;
 
 // Need to protected this from being run when code is being run on the server
 if ( process.browser ) {
+  // This posts any warn+ messages to the /logger path on the front end for inclusion in the server logs there
   require('loglevel-plugin-remote').apply(log, {
     url: '/logger',
     method: 'POST',
     timeout: 500,
     interval: 500,
-    level: 'warn'
+    level: 'warn',
+    token: Buffer.from(loggingUUID).toString('base64')
   });
 }
 

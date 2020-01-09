@@ -1,4 +1,5 @@
 const path = require('path');
+const uuid = require('uuid/v1');
 const nextBuildId = require('next-build-id');
 const {
   PHASE_DEVELOPMENT_SERVER,
@@ -14,6 +15,9 @@ const logger = require('./lib/logger').getLogger('server');
 
 const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
+
+// Generate a key on startup to protect the logging endpoint from general spam
+const loggingUUID = uuid();
 
 module.exports = phase => {
   // when started in development mode `next dev` or `npm run dev` regardless of the value of STAGING environmental variable
@@ -31,6 +35,7 @@ module.exports = phase => {
       backendUrl: process.env.BACKEND_URL,
       appName: process.env.APP_NAME,
       instanceId,
+      loggingUUID,
     },
     serverRuntimeConfig: {
       backendUrl: process.env.SERVER_BACKEND_URL || process.env.BACKEND_URL,

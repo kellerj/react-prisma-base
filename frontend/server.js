@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const next = require('next');
 const getConfig = require('next/config').default;
 const passport = require('passport');
+const BearerStrategy = require('passport-bearer-strategy');
 const jwt = require('jsonwebtoken');
 const helmet = require('helmet');
 
@@ -17,8 +18,23 @@ const handleNextJsRequest = app.getRequestHandler();
 const getLogger = require('./lib/logger').getLogger;
 const logger = getLogger('server');
 
+const { backendUrl, loggingUUID } = getConfig().publicRuntimeConfig;
+
 const authMethod = dev ? 'custom' : 'somethingElse';
 require(`./lib/auth-${authMethod}`).configure(passport);
+
+// Bearer token strategy for the logging endpoint.  Checks the token to confirm eligibility
+passport.use(new BearerStrategy({}, (token, done) => {
+  //logger.info('Received Token: ' + token);
+  const decodedToken = Buffer.from(token, 'base64').toString('utf8');
+  //logger.info('Decoded Token: ' + decodedToken);
+  if ( decodedToken !== loggingUUID ) {
+    logger.warn(`Token Mismatch: ${decodedToken}`);
+    return done(null, false, 'invalid token');
+  }
+  // success - don't care about the user info
+  done(null, {});
+}));
 
 // Signing secret for the token, must be shared by the backend server
 const jwtSecret = process.env.JWT_SECRET;
@@ -35,24 +51,25 @@ function configureExpress() {
   server.use(bodyParser.text());
   // Set up rules which prevent embedding of the application into other sites
   // and disallow the page from contacting sites other than itself and the backend server
-  const { backendUrl } = getConfig().publicRuntimeConfig;
   server.use(helmet({
     contentSecurityPolicy: {
         directives: {
-          defaultSrc: ["'none'"],
-          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
+          defaultSrc: ["'none'"], // default for all directives
+          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // only allow from self and inline code - needed for React
+          styleSrc: ["'self'", "'unsafe-inline'"], // only allow from self and inline code - needed for styled components
           imgSrc: ['*'],
-          objectSrc: ["'none'"],
-          mediaSrc: ["'none'"],
-          frameSrc: ["'none'"],
-          connectSrc: ["'self'", backendUrl],
-          reportUri: '/csp-violation',
+          objectSrc: ["'none'"], // embedded object sources
+          mediaSrc: ["'none'"], // A/V media sources
+          frameSrc: ["'none'"], // items allowed to be placed in frames/iframes
+          fontSrc: ["'self'"],
+          childSrc: ["'self'"],
+          connectSrc: ["'self'", backendUrl], // limits the URLs to which the front-end code can connect
+          reportUri: '/csp-violation',        // posts any attempted violations here
         },
         reportOnly: false,//process.env.NODE_ENV === 'development',
     },
     frameguard: {
-      action: 'deny',
+      action: 'deny', // don't allow application to be displayed within a frame on another website
     }
   }));
   // Set up local session management needed for passport
@@ -104,9 +121,15 @@ function configureExpress() {
     res.status(204).end();
   });
 
-  server.post('/logger', (req, res) => {
-    getLogger('client').info(req.body);
-    res.status(200).end();
+  // log information posted from the client to the server logs
+  server.post('/logger', passport.authenticate('bearer'), (req, res) => {
+    // user is set if the authentication was successful
+    if ( req.user ) {
+      getLogger('client').info(req.body);
+      res.status(200).end();
+      return;
+    }
+    res.status(403).end();
   });
 
   // Pass anything not covered by the above to Next.js
