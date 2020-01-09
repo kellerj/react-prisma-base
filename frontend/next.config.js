@@ -10,6 +10,8 @@ require('dotenv-expand')(require('dotenv-safe').config({
   path: `${process.env.DOTENV_CONFIG_PATH}/.env`,
   // example: `${process.env.DOTENV_CONFIG_PATH}/.env.example`,
 }));
+const logger = require('./lib/logger').getLogger('server');
+
 const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
 
@@ -21,7 +23,7 @@ module.exports = phase => {
   const isTestServer = phase === PHASE_PRODUCTION_BUILD && process.env.INSTANCE_ID !== 'prd';
   const instanceId = process.env.INSTANCE_ID;
 
-  console.log(`isLocal:${isLocal} / isProd:${isProd} / isTestServer:${isTestServer}`);
+  logger.info(`isLocal:${isLocal} / isProd:${isProd} / isTestServer:${isTestServer}`);
 
   const config = withCSS(withSass({
     publicRuntimeConfig: {
@@ -32,6 +34,7 @@ module.exports = phase => {
     },
     serverRuntimeConfig: {
       backendUrl: process.env.SERVER_BACKEND_URL || process.env.BACKEND_URL,
+      docusignKey: process.env.DOCUSIGN_TOKEN,
     },
     // eslint-disable-next-line no-unused-vars
     webpack(config, options) {
@@ -44,10 +47,10 @@ module.exports = phase => {
   }));
 
   if ( isLocal ) {
-    console.log(JSON.stringify(config, null, 2));
+    logger.info(JSON.stringify(config, null, 2));
   } else {
     // There will be no secrets in the public config - so safe to dump that
-    console.log(JSON.stringify(config.publicRuntimeConfig, null, 2));
+    logger.info(JSON.stringify(config.publicRuntimeConfig, null, 2));
   }
   return config;
 };

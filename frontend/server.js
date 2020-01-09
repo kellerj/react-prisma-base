@@ -10,9 +10,11 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const helmet = require('helmet');
 
+
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handleNextJsRequest = app.getRequestHandler();
+const logger = require('./lib/logger').getLogger('server');
 
 const authMethod = dev ? 'custom' : 'somethingElse';
 require(`./lib/auth-${authMethod}`).configure(passport);
@@ -92,9 +94,9 @@ function configureExpress() {
   // Log any instances of the CSP rules being violated
   server.post('/csp-violation', (req, res) => {
     if (req.body) {
-      console.log('CSP Violation: ', req.body);
+      logger.warn('CSP Violation: ', req.body);
     } else {
-      console.log('CSP Violation: No data received!');
+      logger.warn('CSP Violation: No data received!');
     }
 
     res.status(204).end();
@@ -106,13 +108,13 @@ function configureExpress() {
   // Start the server
   server.listen(process.env.FRONTEND_PORT, (err) => {
     if (err) throw err;
-    console.log(`> Ready on ${process.env.FRONTEND_URL}`);
+    logger.info(`> Ready on ${process.env.FRONTEND_URL}`);
   });
 }
 
 app.prepare()
   .then(configureExpress)
   .catch((ex) => {
-    console.error(ex.stack);
+    logger.error(ex.stack);
     process.exit(1);
   });
