@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 
 import { Alert } from 'reactstrap';
 import Router from 'next/router';
-
+/**
+ * Permission Check component to allow to block access to pages or components when the user is not logged
+ * in or does not have a given role.  Can optionally redirect the user to the login URL.
+ *
+ * @param {*} props
+ */
 const PermissionCheck = (props) => {
   if (props.authenticationRequired && !props.user) {
     if ( props.redirectOnAuthNFailure ) {
