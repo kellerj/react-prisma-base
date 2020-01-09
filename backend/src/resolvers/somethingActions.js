@@ -3,6 +3,9 @@
  * @module
  */
 const { forwardTo } = require('prisma-binding');
+const { getLogger } = require('../lib/logger');
+
+const log = getLogger('somethingActions');
 
 const Query = {
 
@@ -30,12 +33,12 @@ const doSomething = async (parent, args, ctx, info) => {
   // console.log(item);
 
   // return item;
-  console.log('Did Something');
+  log.info('Did Something');
   return { message: 'This Did Something' };
 };
 
 const doSomethingElse = async (parent, args, ctx, info) => {
-  console.log('Did Something Else');
+  log.info('Did Something Else');
   return { message: 'Got Something Else' };
 };
 

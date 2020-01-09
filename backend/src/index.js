@@ -2,7 +2,6 @@
  * @file Main entry point for the application.  Starts up the express server and applies the Apollo Server as a middleware.
  * @author Jonathan Keller
  */
-/* eslint-disable no-console */
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
 const express = require('express');
@@ -10,10 +9,13 @@ const cookieParser = require('cookie-parser');
 // eslint-disable-next-line import/order
 const parsedConfig = require('./dotenv-secure')(require('dotenv-expand')(require('dotenv-safe').config()));
 const createServer = require('./apollo');
+const { getLogger } = require('./lib/logger');
+
+const log = getLogger('server');
 
 if (process.env.INSTANCE_ID === 'dev') {
-  console.log('Running with Configuration:');
-  console.log(jsonColorizer(stringify(parsedConfig.parsed, null, 2)));
+  log.debug('Running with Configuration:');
+  log.debug(jsonColorizer(stringify(parsedConfig.parsed, null, 2)));
 }
 
 const apollo = createServer();
@@ -33,5 +35,5 @@ apollo.applyMiddleware({
 });
 
 app.listen({ port: process.env.BACKEND_PORT }, () => {
-  console.log(`🚀 Server ready at http://localhost:${process.env.BACKEND_PORT}${apollo.graphqlPath}`);
+  log.info(`🚀 Server ready at http://localhost:${process.env.BACKEND_PORT}${apollo.graphqlPath}`);
 });

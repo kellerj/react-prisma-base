@@ -6,13 +6,15 @@
  */
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
+const { getLogger } = require('../lib/logger');
 
+const log = getLogger('graphql');
 // debugging logging to find things to include in traces below
 // if (root) {
-//   console.log(`Root: ${jsonColorizer(stringify(root, null, 2))}`);
+//   log.info(`Root: ${jsonColorizer(stringify(root, null, 2))}`);
 // }
-// console.log(`Info: ${jsonColorizer(stringify(info, null, 2))}`);
-// console.log(`Context: ${jsonColorizer(stringify(context, null, 2))}`);
+// log.info(`Info: ${jsonColorizer(stringify(info, null, 2))}`);
+// log.info(`Context: ${jsonColorizer(stringify(context, null, 2))}`);
 
 /**
  * Log the operation and arguments of the GraphQL call.
@@ -24,7 +26,7 @@ const stringify = require('json-stringify-safe');
  * @param {*} info Apollo internals with information on the operation being called
  */
 const logRequest = async (resolve, root, args, context, info) => {
-  console.log(`GraphQL Request: ${jsonColorizer(stringify({
+  log.info(`GraphQL Request: ${jsonColorizer(stringify({
     parentType: info.parentType,
     returnType: info.returnType,
     fieldName: info.fieldName,
@@ -32,16 +34,16 @@ const logRequest = async (resolve, root, args, context, info) => {
     operationName: info.operation.name ? info.operation.name.value : info.operation,
     variableValues: info.variableValues,
   }, null, 2))}`);
-  console.log(`GraphQL Request Args: ${jsonColorizer(stringify(args))}`);
+  log.info(`GraphQL Request Args: ${jsonColorizer(stringify(args))}`);
   return resolve(root, args, context, info);
 };
 
 const logRequestResult = async (resolve, root, args, context, info) => {
   const result = await resolve(root, args, context, info);
   if (result) {
-    console.log(`GraphQL Result: ${jsonColorizer(stringify(result, null, 2))}`);
+    log.info(`GraphQL Result: ${jsonColorizer(stringify(result, null, 2))}`);
   } else {
-    console.log(`GraphQL Result: ${result}`);
+    log.info(`GraphQL Result: ${result}`);
   }
   return result;
 };

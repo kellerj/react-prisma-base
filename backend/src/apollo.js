@@ -5,6 +5,9 @@
 const { ApolloServer } = require('apollo-server-express');
 const jwt = require('jsonwebtoken');
 const jsonColorizer = require('json-colorizer');
+const { getLogger } = require('./lib/logger');
+
+const log = getLogger('server');
 
 const prisma = require('./prisma').bindings;
 const schema = require('./schema');
@@ -26,11 +29,11 @@ const decodeJwt = (req) => {
   // console.log(`JWT Token: ${apiAuthToken}`);
   if (apiAuthToken) {
     const decodedToken = jwt.verify(apiAuthToken, process.env.JWT_SECRET);
-    console.log(`Decoded Token: ${jsonColorizer(decodedToken)}`);
+    log.debug(`Decoded Token: ${jsonColorizer(decodedToken)}`);
     req.userId = decodedToken.sub;
     return decodedToken.sub;
   }
-  console.log('No API Auth Token Found');
+  log.warn('No API Auth Token Found');
 
   return null;
 };

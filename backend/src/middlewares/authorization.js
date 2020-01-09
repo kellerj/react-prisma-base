@@ -6,6 +6,9 @@
  */
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
+const { getLogger } = require('../lib/logger');
+
+const log = getLogger('authorization');
 
 const RULE_TRACING_ON = false;
 /* eslint-disable no-unused-vars */
@@ -26,7 +29,7 @@ const isAuthenticated = rule({
 const isAdmin = rule({
   cache: 'contextual',
 })(async (parent, args, ctx, info) => {
-  console.log('isAdmin Rule');
+  log.debug('isAdmin Rule');
   return ctx.req.user && ctx.req.user.permissions && ctx.req.user.permissions.includes('ADMIN');
 });
 
@@ -45,8 +48,8 @@ const logAndDeny = rule({
   cache: 'no_cache',
   debug: true,
 })((parent, args, ctx, info) => {
-  console.log('**************FALLBACK SHIELD RULE - INCOMPLETE RULE CONFIGURATION');
-  console.log(`Unmatched GraphQL Request: ${jsonColorizer(stringify({
+  log.error('**************FALLBACK SHIELD RULE - INCOMPLETE RULE CONFIGURATION');
+  log.error(`Unmatched GraphQL Request: ${jsonColorizer(stringify({
     parentType: info.parentType,
     returnType: info.returnType,
     fieldName: info.fieldName,
@@ -62,8 +65,8 @@ const traceAndDeny = rule({
   debug: true,
 })((parent, args, ctx, info) => {
   if (RULE_TRACING_ON) {
-    console.log('**************TRACE RULE');
-    console.log(`GraphQL Request: ${jsonColorizer(stringify({
+    log.debug('**************TRACE RULE');
+    log.debug(`GraphQL Request: ${jsonColorizer(stringify({
       parentType: info.parentType,
       returnType: info.returnType,
       fieldName: info.fieldName,
@@ -72,10 +75,10 @@ const traceAndDeny = rule({
       variableValues: info.variableValues,
     }, null, 2))}`);
     if (parent) {
-      console.log(`Parent: ${jsonColorizer(stringify(parent, null, 2))}`);
+      log.debug(`Parent: ${jsonColorizer(stringify(parent, null, 2))}`);
     }
-    console.log(`Args: ${jsonColorizer(stringify(args))}`);
-    console.log(`Info: ${jsonColorizer(stringify(info, null, 2))}`);
+    log.debug(`Args: ${jsonColorizer(stringify(args))}`);
+    log.debug(`Info: ${jsonColorizer(stringify(info, null, 2))}`);
   }
   return false;
 });
