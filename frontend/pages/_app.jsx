@@ -11,6 +11,22 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 config.autoAddCss = false;
 import '../lib/icons';
 import theme from '../styles/theme.js';
+import log from 'loglevel';
+
+// Need to protected this from being run when code is being run on the server
+if ( process.browser ) {
+  require('loglevel-plugin-remote').apply(log, {
+    url: '/logger',
+    method: 'POST',
+    timeout: 500,
+    interval: 500,
+    level: 'warn'
+  });
+}
+
+if ( process.env.NODE_ENV === 'development' ) {
+  log.setDefaultLevel('info');
+}
 
 class ThisApp extends App {
   static async getInitialProps({ Component, ctx }) {

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import fetch from 'isomorphic-unfetch';
+import log from 'loglevel';
 
 import PermissionCheck from './support/PermissionCheck';
 
@@ -86,8 +87,9 @@ export const ShowSomething = (props) => {
     { loading: doSomethingLoading, error: doSomethingError },
   ] = useMutation(DO_SOMETHING_MUTATION, {
     onCompleted: (data) => {
-      console.log('Did Something');
-      console.log(stringify(data, null, 2));
+      // log.enableAll();
+      log.info('Did Something');
+      log.info(stringify(data, null, 2));
       setMessage(data.doSomething.message);
       setCount(count + 1);
     }
@@ -98,12 +100,12 @@ export const ShowSomething = (props) => {
     { loading: doSomethingElseLoading, error: doSomethingElseError },
   ] = useMutation(DO_SOMETHING_ELSE, {
     onCompleted: (data) => {
-      console.log('Did Something Else');
-      console.log(stringify(data, null, 2));
+      log.info('Did Something Else');
+      log.info(stringify(data, null, 2));
       setOtherMessage(data.doSomethingElse.message);
     },
     onError: (err) => {
-      console.warn('Unable to do something else');
+      log.warn('Unable to do something else', err);
       // This is an option in addition to rendering the message inline as in the area below.
       setAlert({ variables: { alertType: 'danger', alertContent: `Error while performing action: ${getMessageFromGraphQLError(err)}` } });
     }
@@ -123,7 +125,7 @@ export const ShowSomething = (props) => {
       <Col>
         <Button onClick={(e) => {
               e.preventDefault();
-              console.log('Doing Something');
+              log.info('Doing Something');
               doSomething();
             }}
           >Click Me <FontAwesomeIcon icon="arrow-right" />
@@ -137,7 +139,7 @@ export const ShowSomething = (props) => {
       <Col>
         <Button onClick={(e) => {
               e.preventDefault();
-              console.log('Doing Something Else');
+              log.info('Doing Something Else');
               doSomethingElse();
             }}
           >Click Me <FontAwesomeIcon icon="arrow-right" />
@@ -158,7 +160,7 @@ export const ShowSomething = (props) => {
       <Col>
         <Button onClick={(e) => {
               e.preventDefault();
-              console.log('Alerting!');
+              log.warn('Alerting!  User clicked button they should not have!');
               setAlert({ variables: { alertType: 'danger', alertContent: 'Please don\'t click that button!' } });
             }}
           >Show Alert
@@ -169,11 +171,11 @@ export const ShowSomething = (props) => {
       <Col>
         <Button onClick={(e) => {
               e.preventDefault();
-              console.log('RESTING!');
+              log.info('RESTING!');
               fetch('/api/something')
                 .then(res => res.text())
                 .then(text => {
-                  console.log('REST result: ' + text);
+                  log.info('REST result: ' + text);
                   setApiResult(text);
                 });
             }}
@@ -191,7 +193,7 @@ export const ShowSomething = (props) => {
 
       <Button onClick={(e) => {
         e.preventDefault();
-        console.log('POSTING!...' + e.target.form.dataToPost.value);
+        log.info('POSTING!...' + e.target.form.dataToPost.value);
         if ( !e.target.form.dataToPost.value ) {
           setAlert({ variables: { alertType: 'warning', alertContent: 'Please enter something in the field before clicking.' } });
           return;
@@ -203,7 +205,7 @@ export const ShowSomething = (props) => {
         })
           .then(res => (res.ok ? res.json() : { status: res.status, message: res.text() }))
           .then(result => {
-            console.log('REST result: ' + JSON.stringify(result));
+            log.info('REST result: ' + JSON.stringify(result));
             setApiPostResult(result.result || result);
           });
         }}>Submit</Button>

@@ -14,7 +14,8 @@ const helmet = require('helmet');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handleNextJsRequest = app.getRequestHandler();
-const logger = require('./lib/logger').getLogger('server');
+const getLogger = require('./lib/logger').getLogger;
+const logger = getLogger('server');
 
 const authMethod = dev ? 'custom' : 'somethingElse';
 require(`./lib/auth-${authMethod}`).configure(passport);
@@ -27,10 +28,11 @@ const jwtSecret = process.env.JWT_SECRET;
  */
 function configureExpress() {
   const server = express();
-  // Needed only to parse the CSP report.
+  // Needed only to parse the CSP report.  If it catches any other types, it will cause other JSON posts to Next.js to fail.
   server.use(bodyParser.json({
-    type: ['json', 'application/csp-report']
+    type: ['application/csp-report']
   }));
+  server.use(bodyParser.text());
   // Set up rules which prevent embedding of the application into other sites
   // and disallow the page from contacting sites other than itself and the backend server
   const { backendUrl } = getConfig().publicRuntimeConfig;
@@ -100,6 +102,11 @@ function configureExpress() {
     }
 
     res.status(204).end();
+  });
+
+  server.post('/logger', (req, res) => {
+    getLogger('client').info(req.body);
+    res.status(200).end();
   });
 
   // Pass anything not covered by the above to Next.js

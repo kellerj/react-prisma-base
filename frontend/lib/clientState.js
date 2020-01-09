@@ -3,6 +3,7 @@
  * @module Client State Management
  */
 import gql from 'graphql-tag';
+import log from 'loglevel';
 
 /**
  * GraphQL Query to pull the current local state information.
@@ -40,7 +41,7 @@ export const getMessageFromGraphQLError = (error) => {
   if (error.message) {
     return error.message;
   }
-  console.log(JSON.stringify(error, null, 2));
+  log.error(JSON.stringify(error, null, 2));
   return JSON.stringify(error);
 };
 
@@ -69,7 +70,7 @@ export const Defaults = {
 export const Resolvers = {
   Mutation: {
     setAlert(_, variables, { cache }) {
-      console.log(variables);
+      log.debug(variables);
       const data = {
         data: {
           alertType: variables.alertType,
@@ -81,7 +82,7 @@ export const Resolvers = {
       return data;
     },
     closeAlert(_, variables, { cache }) {
-      console.log(variables);
+      log.debug(variables);
       const data = {
         data: {
           alertOpen: false,

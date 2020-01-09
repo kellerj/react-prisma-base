@@ -4,19 +4,20 @@ import getConfig from 'next/config';
 import NProgress from 'nprogress';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Nav, NavItem, Navbar, NavbarBrand, NavbarToggler, NavbarText, Collapse, NavLink } from 'reactstrap';
+import log from 'loglevel';
 
 const { appName, instanceId } = getConfig().publicRuntimeConfig;
 
 Router.onRouteChangeChart = () => {
-  console.log('onRouteChangeChart triggered');
+  log.debug('onRouteChangeChart triggered');
   NProgress.start();
 };
 Router.onRouteChangeComplete = () => {
-  console.log('onRouteChangeComplete triggered');
+  log.debug('onRouteChangeComplete triggered');
   NProgress.done();
 };
 Router.onRouteChangeError = () => {
-  console.log('onRouteChangeError triggered');
+  log.debug('onRouteChangeError triggered');
   NProgress.done();
 };
 
