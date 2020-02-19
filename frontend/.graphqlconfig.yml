@@ -1,11 +1,20 @@
 projects:
-  app:
+  default:
     schemaPath: "../backend/database/schema.graphql"
+    includes: ["../backend/**/*.graphql"]
     extensions:
       endpoints:
-        default: "http://localhost:4444/graphql"
-  prisma:
-    schemaPath: "../backend/src/generated/prisma.graphql"
-    extensions:
-      prisma: "../backend/prisma.yml"
+        default:
+          url: "http://localhost:4444/graphql"
+          headers:
+            APIAuthToken: 'eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhdXNlciJ9.RT46w06Uu_vLu7vD3DcLCVvEmbfeXcIbS-KR2u68_OGUrEIavQa6PUWfZOBBTMIE'
+  # prisma:
+  #   schemaPath: "../backend/src/generated/prisma.graphql"
+  #   extensions:
+  #     #prisma: "../backend/prisma.yml"
+  #     endpoints:
+  #       default:
+  #         url: "http://localhost:4466/react-prisma-base/dev"
+  #         headers:
+  #           authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJyZWFjdC1wcmlzbWEtYmFzZUBkZXYiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTgyMTM4NzcwLCJleHAiOjE1ODI3NDM1NzB9.YFm7PdK7D4kHklexAARF0SpXuTSRwUCTcBkLTHYwhIg"
 
