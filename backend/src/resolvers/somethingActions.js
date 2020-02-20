@@ -10,6 +10,7 @@ const log = getLogger('somethingActions');
 const Query = {
 
   something: forwardTo('db'),
+  // somethings: forwardTo('db'),
 };
 
 /**
