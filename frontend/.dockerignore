@@ -1,9 +1,0 @@
-node_modules
-npm-debug.log
-.vscode
-.next
-doc
-jest.*
-*.test.js
-nodemon.json
-jsdoc.*
