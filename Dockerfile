@@ -1,9 +1,8 @@
 #
 # Build on full version of node
 #
-FROM node:10-slim AS builder
+FROM node:10 AS BUILDER
 
-RUN npm set registry http://host.docker.internal:4873/
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -14,13 +13,13 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install
-RUN npm build
-RUN npm prune --production
 
 #
 # Runner using smaller version of the Node image
 #
 FROM node:10-slim AS runner
+
+RUN apt-get -q update && apt-get -qy install netcat
 
 WORKDIR /usr/src/app
 # Bring over all the node modules
@@ -28,6 +27,8 @@ COPY --from=builder /usr/src/app .
 # Now copy the rest of the application
 COPY . .
 
-EXPOSE 7777
-ENV NODE_ENV=production
-CMD [ "npm", "start" ]
+RUN npm run generate
+
+EXPOSE 4444
+
+CMD [ "npm", "run", "dev" ]

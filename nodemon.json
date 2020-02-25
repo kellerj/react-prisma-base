@@ -1,6 +1,8 @@
 {
   "verbose": true,
   "watch" : [
+    "src/**/*.js",
+    "database/schema.graphql",
     "server.js",
     "next.config.js"
   ]
