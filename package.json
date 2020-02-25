@@ -4,10 +4,10 @@
   "description": "React/Next/Apollo/Prisma Template Project",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "debug": "nodemon --inspect server.js",
+    "dev": "DOTENV_CONFIG_PATH=. nodemon src/index.js",
+    "debug": "DOTENV_CONFIG_PATH=. nodemon --inspect src/index.js",
     "build": "next build",
-    "start": "node server.js",
+    "start": "DOTENV_CONFIG_PATH=. node src/index.js",
     "doc": "jsdoc -c ./jsdoc.config.js",
     "test": "NODE_ENV=test jest --coverage",
     "test:watch": "NODE_ENV=test jest --watch",

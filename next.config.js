@@ -11,7 +11,7 @@ require('dotenv-expand')(require('dotenv-safe').config({
   path: `${process.env.DOTENV_CONFIG_PATH}/.env`,
   // example: `${process.env.DOTENV_CONFIG_PATH}/.env.example`,
 }));
-const logger = require('./lib/logger').getLogger('server');
+const logger = require('./src/lib/logger').getLogger('server');
 
 const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
