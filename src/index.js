@@ -149,7 +149,7 @@ function configureExpress() {
   });
 
   apollo.applyMiddleware({
-    server,
+    app: server,
     path: '/graphql',
     cors: {
       origin: process.env.FRONTEND_URL,
@@ -162,7 +162,7 @@ function configureExpress() {
   server.all('*', (req, res) => handleNextJsRequest(req, res));
 
   // Start the server
-  server.listen(process.env.FRONTEND_PORT, (err) => {
+  server.listen(process.env.PORT, (err) => {
     if (err) throw err;
     log.info(`> Ready on ${process.env.FRONTEND_URL}`);
   });

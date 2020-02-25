@@ -43,8 +43,8 @@ module.exports = phase => {
     },
     // eslint-disable-next-line no-unused-vars
     webpack(config, options) {
-      config.resolve.alias['components'] = path.join(__dirname, 'components');
-      config.resolve.alias['lib'] = path.join(__dirname, 'lib');
+      config.resolve.alias['components'] = path.join(__dirname, 'src', 'components');
+      config.resolve.alias['lib'] = path.join(__dirname, 'src', 'lib');
       return config;
     },
     generateBuildId: () => nextBuildId({ dir: __dirname, describe: true }),

@@ -2,7 +2,7 @@
 
 module.exports = {
   source: {
-    include: ['server.js', 'components', 'lib', 'pages'],
+    include: ['src'],
   },
   plugins: [
     'plugins/markdown',
