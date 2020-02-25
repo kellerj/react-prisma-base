@@ -164,7 +164,7 @@ function configureExpress() {
   // Start the server
   server.listen(process.env.PORT, (err) => {
     if (err) throw err;
-    log.info(`> Ready on ${process.env.FRONTEND_URL}`);
+    log.info(`> Ready on ${process.env.BASE_URL}`);
   });
 }
 

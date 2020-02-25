@@ -132,7 +132,7 @@ export const ShowSomething = (props) => {
         </Button>
       </Col>
       <Col>
-          Result: {message}<Badge>{count}</Badge>
+        Result: {message}<Badge>{count}</Badge>
       </Col>
     </WhiteRow>
     <WhiteRow>
@@ -146,7 +146,7 @@ export const ShowSomething = (props) => {
         </Button>
       </Col>
       <Col>
-          Result: {doSomethingElseError ? <Red>{getMessageFromGraphQLError(doSomethingElseError)}</Red> : otherMessage}
+        Result: {doSomethingElseError ? <Red>{getMessageFromGraphQLError(doSomethingElseError)}</Red> : otherMessage}
       </Col>
     </WhiteRow>
     <WhiteRow>
