@@ -7,7 +7,7 @@
  * This prefix is used during the decryption process to select the needed key.
  *
  * Environment Variables Required:
- * KEY_PATH: Reletive or absolute path to a directory with the key files.  Files in this directory must be named with `.public` or `.private` extensions.  Other files _may_ be present in the directory.
+ * KEY_PATH: Relative or absolute path to a directory with the key files.  Files in this directory must be named with `.public` or `.private` extensions.  Other files _may_ be present in the directory.
  * KEY_CURR_ID: The ID of the current encryption key.  It will be used to encrypt any new data or reencrypt existing data.
  *
  * Key rotation can be accomplished by adding a new set of keys to the project and
@@ -108,7 +108,10 @@ function encrypt(text, padding) {
   const buffer = Buffer.from(text);
   if (!padding) padding = PaddingOption[DEFAULT_PADDING];
   // eslint-disable-next-line dot-notation
-  const key = { key: keys[encryptionKeyId].public, padding: crypto.constants[padding] };
+  const key = {
+    key: keys[encryptionKeyId].public,
+    padding: crypto.constants[padding],
+  };
   const encrypted = crypto.publicEncrypt(key, buffer);
   // prepend the current encryption key and padding to the string
   // Using a Pipe character is safe as it is not a possible character in a base64 encoded string
@@ -129,8 +132,9 @@ function decrypt(text) {
   if (!text) return text;
   const data = text.split('|');
   let keyId = encryptionKeyId; // default in case the encrypted data does not have a prefix yet
-  let padding = 'NONE';
+  let padding = PaddingOption[DEFAULT_PADDING];
   let buffer = null;
+  // this may be a value encrypted before we added the prefixes
   if (data.length === 1) {
     buffer = Buffer.from(data[0], 'base64');
   } else {
@@ -142,7 +146,10 @@ function decrypt(text) {
     log.error(`Unable to decrypt.  No private key found for Key ID: ${keyId}`);
     throw new Error(`Server Misconfiguration - missing decryption key with ID ${keyId}`);
   }
-  const key = { key: keys[encryptionKeyId].private, padding: crypto.constants[PaddingOption[padding]] };
+  const key = {
+    key: keys[encryptionKeyId].private,
+    padding: crypto.constants[padding],
+  };
   const decrypted = crypto.privateDecrypt(key, buffer);
   return decrypted.toString('utf8');
 }
