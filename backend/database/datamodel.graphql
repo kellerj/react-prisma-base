@@ -10,4 +10,5 @@ type Something {
   code: String! @unique
   "Something's name"
   name: String!
+  encryptedData: String
 }
