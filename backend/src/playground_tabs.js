@@ -12,6 +12,7 @@ query GET_SOMETHING($code: String!) {
     id
     code
     name
+    encryptedData
   }
 }
     `,

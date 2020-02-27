@@ -73,7 +73,6 @@
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
-    "casual": "^1.5.19",
     "dotenv-cli": "^3.1.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.15.1",
@@ -86,6 +85,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "eslint-plugin-sonarjs": "^0.5.0",
+    "faker": "^4.1.0",
     "graphql-tools": "^4.0.6",
     "jest": "^24.9.0",
     "jest-bamboo-reporter": "^1.2.1",

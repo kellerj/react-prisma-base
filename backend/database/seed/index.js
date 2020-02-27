@@ -6,12 +6,14 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const casual = require('casual');
 const db = require('../../src/prisma').bindings;
+const encryption = require('../../src/lib/encryption');
 
-const createSomething = async (code, name) => {
+const createSomething = async (code, name, dataToEncrypt) => {
   const result = await db.mutation.createSomething({
     data: {
       code,
       name,
+      encryptedData: encryption.encrypt(dataToEncrypt),
     },
   }, '{ id code name }');
   console.log(`Inserted Something: ${JSON.stringify(result)}`);
@@ -21,7 +23,7 @@ const createSomething = async (code, name) => {
 const setup = async () => {
   console.log('Seeding Database');
 
-  await createSomething('1', casual.word);
+  await createSomething('1', casual.word, casual.sentence);
 };
 
 setup();

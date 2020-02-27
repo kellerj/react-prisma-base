@@ -60,6 +60,22 @@ const logAndDeny = rule({
   return false;
 });
 
+const logAndAllow = rule({
+  cache: 'no_cache',
+  debug: true,
+})((parent, args, ctx, info) => {
+  log.warn('**************FALLBACK SHIELD RULE - INCOMPLETE RULE CONFIGURATION');
+  log.warn(`Unmatched GraphQL Request: ${jsonColorizer(stringify({
+    parentType: info.parentType,
+    returnType: info.returnType,
+    fieldName: info.fieldName,
+    operation: info.operation.operation,
+    operationName: info.operation.name ? info.operation.name.value : info.operation,
+    variableValues: info.variableValues,
+  }, null, 2))}`);
+  return true;
+});
+
 const traceAndDeny = rule({
   cache: 'no_cache',
   debug: true,
@@ -90,6 +106,7 @@ module.exports = shield({
   Mutation: {
     doSomething: allow,
     doSomethingElse: isAuthenticated,
+    updateSomething: allow,
   },
   // Each property on an object is checked.  You must be allowed to call the Query or Mutation *AND* access the resulting properties.
   // These could be expanded to allow access to attribute-level restrictions.
@@ -101,5 +118,5 @@ module.exports = shield({
   debug: process.env.NODE_ENV === 'development',
   allowExternalErrors: process.env.NODE_ENV === 'development',
   fallbackError: new Error('Unauthorized'),
-  fallbackRule: logAndDeny,
+  fallbackRule: (process.env.NODE_ENV === 'development') ? logAndAllow : logAndDeny,
 });

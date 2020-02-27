@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import gql from 'graphql-tag';
 import fetch from 'isomorphic-unfetch';
 import log from 'loglevel';
+import faker from 'faker';
 
 import PermissionCheck from './support/PermissionCheck';
 
@@ -15,14 +16,22 @@ import { SET_ALERT, getMessageFromGraphQLError } from 'lib/clientState';
 // const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
 
+const somethingFields = gql`
+  fragment somethingFields on Something {
+    id
+    code
+    name
+    encryptedData
+  }
+`;
+
 const GET_SOMETHING = gql`
   query GET_SOMETHING($code: String!) {
     something(where: { code: $code }) {
-      id
-      code
-      name
+      ...somethingFields
     }
   }
+  ${somethingFields}
 `;
 
 const DO_SOMETHING_MUTATION = gql`
@@ -32,6 +41,16 @@ const DO_SOMETHING_MUTATION = gql`
     }
   }
 `;
+
+const UPDATE_SOMETHING_MUTATION = gql`
+  mutation UPDATE_SOMETHING_MUTATION($code: String!, $newData: String!) {
+    updateSomething(where: { code: $code }, data: { encryptedData: $newData }) {
+      ...somethingFields
+    }
+  }
+  ${somethingFields}
+`;
+
 
 const DO_SOMETHING_ELSE = gql`
   mutation DO_SOMETHING_ELSE {
@@ -110,16 +129,34 @@ export const ShowSomething = (props) => {
       setAlert({ variables: { alertType: 'danger', alertContent: `Error while performing action: ${getMessageFromGraphQLError(err)}` } });
     }
   });
+  const [
+    updateSomething,
+    // eslint-disable-next-line no-unused-vars
+    { loading: updateSomethingLoading, error: updateSomethingError },
+  ] = useMutation(UPDATE_SOMETHING_MUTATION);
+  //  , { refetchQueries: [{query:GET_SOMETHING}]}
   // NOSONAREND
   // call GraphQL query
   const { loading: queryLoading, error: queryError, data } = useQuery(GET_SOMETHING, { variables: { code: '1' } });
 
   if (queryLoading) return <p>Loading...</p>;
   if (queryError) return <p>ERROR!...{JSON.stringify(queryError)}</p>;
+  if (updateSomethingError) return <p>ERROR!...{JSON.stringify(updateSomethingError)}</p>;
   if (!data.something) return <p>Nothing Found</p>;
   return (<>
     <WhiteRow>
       <Col>Something&apos;s Name: {data.something.name}</Col>
+    </WhiteRow>
+    <WhiteRow>
+      <Col>Encrypted Data: {updateSomethingLoading?'UPDATING...':data.something.encryptedData}
+        <Button onClick={(e) => {
+              e.preventDefault();
+              log.info('Updating Something');
+              updateSomething({ variables: { code: '1', newData: faker.lorem.sentence() }});
+            }}
+          ><FontAwesomeIcon icon="arrow-left" />Update Me
+        </Button>
+      </Col>
     </WhiteRow>
     <WhiteRow>
       <Col>
@@ -132,7 +169,7 @@ export const ShowSomething = (props) => {
         </Button>
       </Col>
       <Col>
-          Result: {message}<Badge>{count}</Badge>
+        Result: {message}<Badge>{count}</Badge>
       </Col>
     </WhiteRow>
     <WhiteRow>
@@ -146,7 +183,7 @@ export const ShowSomething = (props) => {
         </Button>
       </Col>
       <Col>
-          Result: {doSomethingElseError ? <Red>{getMessageFromGraphQLError(doSomethingElseError)}</Red> : otherMessage}
+        Result: {doSomethingElseError ? <Red>{getMessageFromGraphQLError(doSomethingElseError)}</Red> : otherMessage}
       </Col>
     </WhiteRow>
     <WhiteRow>
