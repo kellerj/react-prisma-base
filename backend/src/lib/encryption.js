@@ -9,6 +9,7 @@
  * Environment Variables Required:
  * KEY_PATH: Relative or absolute path to a directory with the key files.  Files in this directory must be named with `.public` or `.private` extensions.  Other files _may_ be present in the directory.
  * KEY_CURR_ID: The ID of the current encryption key.  It will be used to encrypt any new data or reencrypt existing data.
+ * KEY_PASSPHRASE: The private key is encrypted per the PKCS #8 standard, this property must be set to decrypt it.
  *
  * Key rotation can be accomplished by adding a new set of keys to the project and
  * updating the KEY_CURR_ID to the new ID.  This will cause all existing data to be
@@ -33,6 +34,7 @@ const log = getLogger('encryption');
 const keyPath = path.resolve(process.env.KEY_PATH);
 // key used to encrypt data
 const encryptionKeyId = process.env.KEY_CURR_ID;
+const keyPassphrase = process.env.KEY_PASSPHRASE;
 // Memory struct to hold read keys
 const keys = {};
 const DEFAULT_PADDING = 'PKCS1_OAEP';
@@ -70,7 +72,7 @@ function initializeKeys() {
       if (!keys[keyId]) {
         keys[keyId] = {};
       }
-      keys[keyId].public = keyData;
+      keys[keyId].public = crypto.createPublicKey(keyData);
     } else if (dirEntry.isFile() && file.endsWith('.private')) {
       log.info(`Reading Private Key ${file}`);
       const keyId = path.basename(file, '.private');
@@ -78,15 +80,15 @@ function initializeKeys() {
       if (!keys[keyId]) {
         keys[keyId] = {};
       }
-      keys[keyId].private = keyData;
+      keys[keyId].private = crypto.createPrivateKey({ key: keyData, passphrase: keyPassphrase });
     }
   });
-
   log.info('Loaded Keys:');
   Object.entries(keys).forEach(([key, value]) => {
     log.info(`Key ID: ${key} hasPublicKey=${!!value.public} hasPrivateKey=${!!value.private}`);
   });
   log.info(`Encryption Key Id: ${encryptionKeyId}`);
+  //log.debug(keys);
 
   if (!keys[encryptionKeyId] || !keys[encryptionKeyId].public) {
     log.error(`No public key found for the encryption key ID set (${encryptionKeyId}).`);
