@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { Container, Button, Row, Col, Badge, Form, FormGroup, Label, Input } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Container, Row, Col, Badge, Form, FormGroup, Label, Input } from 'reactstrap';
 import styled from 'styled-components';
+import { ArrowRight, ArrowLeft } from '@styled-icons/fa-solid';
+import {motion} from 'framer-motion';
 import gql from 'graphql-tag';
 import fetch from 'isomorphic-unfetch';
 import log from 'loglevel';
@@ -60,7 +61,6 @@ const DO_SOMETHING_ELSE = gql`
   }
 `;
 
-
 const WhiteContainer = styled(Container).attrs(() => ({ fluid: true }))`
   background-color: ${({ theme }) => theme.colors.containerBackground};
   margin-bottom: 1rem;
@@ -78,6 +78,14 @@ const WhiteRow = (props) => (
   <WhiteContainer>
     <Row>{props.children}</Row>
   </WhiteContainer>
+);
+
+const Button = (props) => (
+  <motion.button whileHover={{ scale: 1.05, backgroundColor: 'black' }}
+    whileTap={{ scale: 0.95 }} className="btn btn-secondary"
+    type="button" {...props}>
+    {props.children}
+  </motion.button>
 );
 
 const Red = styled.span`
@@ -154,7 +162,7 @@ export const ShowSomething = (props) => {
               log.info('Updating Something');
               updateSomething({ variables: { code: '1', newData: faker.lorem.sentence() }});
             }}
-          ><FontAwesomeIcon icon="arrow-left" />Update Me
+          ><ArrowLeft /> Update Me
         </Button>
       </Col>
     </WhiteRow>
@@ -165,7 +173,7 @@ export const ShowSomething = (props) => {
               log.info('Doing Something');
               doSomething();
             }}
-          >Click Me <FontAwesomeIcon icon="arrow-right" />
+          >Click Me <ArrowRight />
         </Button>
       </Col>
       <Col>
@@ -179,7 +187,7 @@ export const ShowSomething = (props) => {
               log.info('Doing Something Else');
               doSomethingElse();
             }}
-          >Click Me <FontAwesomeIcon icon="arrow-right" />
+          >Click Me <ArrowRight />
         </Button>
       </Col>
       <Col>

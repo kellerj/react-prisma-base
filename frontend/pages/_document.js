@@ -2,6 +2,14 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
+import styled from 'styled-components';
+import { StyledIconBase } from '@styled-icons/styled-icon';
+
+const IconStyleWrapper = styled.div`
+  ${StyledIconBase} {
+    width: 1rem;
+  }
+`;
 
 /**
  * Override class for building each document's HTML used to include the
@@ -24,8 +32,10 @@ class CustomDocument extends Document {
           {this.props.styleTags}
         </Head>
         <body>
-          <Main />
-          <NextScript />
+          <IconStyleWrapper>
+            <Main />
+            <NextScript />
+          </IconStyleWrapper>
         </body>
       </html>
     );

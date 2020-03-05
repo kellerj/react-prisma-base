@@ -2,8 +2,8 @@ import React from 'react';
 import Router from 'next/router';
 import getConfig from 'next/config';
 import NProgress from 'nprogress';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Nav, NavItem, Navbar, NavbarBrand, NavbarToggler, NavbarText, Collapse, NavLink } from 'reactstrap';
+import { UserCircle, QuestionCircle } from '@styled-icons/fa-solid';
 import log from 'loglevel';
 
 const { appName, instanceId } = getConfig().publicRuntimeConfig;
@@ -28,13 +28,13 @@ const LoginNavItem = (props) => {
         <NavbarText>Hello, {props.user.name}</NavbarText>
       </NavItem>
       <NavItem>
-        <NavLink href="/logout">Logout <FontAwesomeIcon icon="user-circle" title={props.user.id} /></NavLink>
+        <NavLink href="/logout">Logout <UserCircle title={props.user.id} /></NavLink>
       </NavItem>
     </>);
   }
   return (
     <NavItem>
-      <NavLink href="/login">Login <FontAwesomeIcon icon="question-circle" /></NavLink>
+      <NavLink href="/login">Login <QuestionCircle title="Not Logged In" /></NavLink>
     </NavItem>
   );
 };

@@ -123,7 +123,10 @@ The [`.env.example`](./backend/.env.example) file should be functional for a loc
 * `*_PORT`
   * used to set up the Express listeners.
 * `NODE_ENV`
+  * `development` : enables certain hot reloading features and debugging options - intended for use in workstation environments only
+  * `production` : used on all server deployments to compile code without debug options
 * `SERVER_BACKEND_URL`
+  *
 * `PRISMA_MANAGEMENT_API_SECRET`
 * `PRISMA_SECRET`
 * `JWT_SECRET`

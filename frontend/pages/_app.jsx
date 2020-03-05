@@ -6,10 +6,6 @@ import Page from 'components/Page';
 import { withApollo } from '../lib/apollo';
 
 import '../styles/styles.scss';
-import { config } from '@fortawesome/fontawesome-svg-core';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-config.autoAddCss = false;
-import '../lib/icons';
 import theme from '../styles/theme.js';
 import log from 'loglevel';
 import getConfig from 'next/config';
