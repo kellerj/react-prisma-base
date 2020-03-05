@@ -118,11 +118,22 @@ The [`.env.example`](./backend/.env.example) file should be functional for a loc
 | KEY_PASSPHRASE               |     | X   | Passphrase to decrypt the private key used to decrypt data. |
 | LOG_DIRECTORY                | X   | X   | Location to store any file-based logs.                      |
 
+##### Property Notes
+
+* `*_PORT`
+  * used to set up the Express listeners.
+* `NODE_ENV`
+* `SERVER_BACKEND_URL`
+* `PRISMA_MANAGEMENT_API_SECRET`
+* `PRISMA_SECRET`
+* `JWT_SECRET`
+* `SESSION_SECRET`
+
 ##### Encrypted Properties
 
 The base application supports encryption of properties via the Jasypt library.  Any property can be be set in the `.env` configuration file with the format: `ENC(encrypted_value)`.  That value will be decrypted using the key stored in the `APP_CONFIG_KEY` environment variable.
 
-To encrypt
+To encrypt a property, set the environment variable `APP_CONFIG_KEY` to the key which will be used on the server to decrypt the value and run `npm run encrypt-config-val` in the backend directory, passing the value you want to encrypt.  Copy the output and put it in the `.env` file or the configuration system if it does not support encrypting values during deployment.
 
 ### MongoDB Setup
 
