@@ -6,30 +6,77 @@
 
 > **Note:** Please delete placeholder content when using this template.
 
+## Using this template project
+
+1. Clone this repository
+2. If you don't want the history, remove the .git directory.
+3. If you want the history, remove the original upstream: `git remote remove origin`
+4. Add the new repository as the origin:
+
+    ```sh
+    git remote add origin -t master -m master <remote URL>
+    ```
+5. Update the project name in all README and package.json files.
+6. Update the app name in `backend/.env.example`
+7. Remove the `Something` datamodel object and all related components. (resolver actions, ShowSomething.jsx, graphql-shield checks)
+
 ## Project Structure
 
-| Directory                 | Purpose                                           |
-| ------------------------- | ------------------------------------------------- |
-| `frontend`                | UI Components for application                     |
-| `frontend/pages`          | Main pages used for application routes            |
-| `frontend/components`     | JSX/React components                              |
-| `frontend/lib`            | Any helper code files                             |
-| `frontend/public`         | Static content sourced by pages                   |
-| `backend`                 | Business logic and data access GraphQL server     |
-| `backend/database`        | Database schema and initial data seeding scripts. |
-| `backend/src`             |                                                   |
-| `backend/src/generated`   | Prisma-client generated files                     |
-| `backend/src/middlewares` | Server middleware for logging and authorization   |
-| `backend/src/resolvers`   | GraphQL resolvers                                 |
-| `backend/scripts`         | Helper/config test scripts.                       |
+| Directory                 | Purpose                                                 |
+| ------------------------- | ------------------------------------------------------- |
+| `frontend`                | **UI Components for application**                       |
+| `frontend/pages`          | Main pages used for application routes                  |
+| `frontend/pages/api`      | API routes (non-UI URLs)                                |
+| `frontend/components`     | JSX/React components                                    |
+| `frontend/lib`            | Any helper code files                                   |
+| `frontend/styles`         | SCSS Bootstrap config and theme setup                   |
+| `frontend/public`         | Static content sourced by pages                         |
+| ------------------------- | ------------------------------------------------------- |
+| `backend`                 | **Business logic and data access GraphQL server**       |
+| `backend/database`        | Database schema and backend graphQL schema.             |
+| `backend/database/seed`   | Tnitial data seeding scripts.                           |
+| `backend/keys`            | Development-only encryption public/private key files.   |
+| `backend/scripts`         | Helper scripts to configure the application.            |
+| `backend/src`             | Core server components                                  |
+| `backend/src/generated`   | Prisma-client generated files                           |
+| `backend/src/lib`         | support libraries                                       |
+| `backend/src/middlewares` | GraphQL Server middleware for logging and authorization |
+| `backend/src/resolvers`   | GraphQL resolvers                                       |
+| `backend/scripts`         | Helper/config test scripts.                             |
 
 ### Requirements
 
-> Note any software which needs to be installed on the developer's system prior to being able to install or run the application.  (E.g., ColdFusion, Java, Node, MongoDB , Oracle VirtualBox with KFS loaded, etc...)
+> Note any software which needs to be installed on the developer's system prior to being able to install or run the application.
 
 * Docker (for Prisma)
-* MongoDB 3.6+ (If not using Docker for MongoDB)
-* Node 10+
+* MongoDB 4+
+* Node 12+
+
+#### VS Code Plugins
+
+If you are using VS Code, please have these plugins installed to ensure code developed confirms to development standards within the existing code base.
+
+* Better Comments
+* Code Spell Checker
+* Dependency Analytics
+* EditorConfig for VS Code
+* ESLint
+* Markdown Table Formatter
+* markdownlint
+* YAML
+
+#### Recommended VS Code Plugins
+
+While not necessary, these may help with development:
+
+* Bracket Pair Colorizer 2
+* Docker
+* Document This
+* DotENV
+* GraphQL (Prisma)
+* Markdown All in One
+* Toggle Quotes
+* vscode-styled-components
 
 ## Install / Setup
 
@@ -40,12 +87,6 @@
 The [`.env.example`](./backend/.env.example) file should be functional for a local deployment of the application.
 
 * Copy `backend/.env.example` to `backend/.env`
-
-To run the Prisma CLI commands (see the `db:*` scripts in backend), you will need to have the following variable in your environment:
-
-* `PRISMA_MANAGEMENT_API_SECRET=my-secret`
-
-Add the line above to the end of the `backend/.env` you just copied.  (For reference, this value must match that in the [PRISMA_CONFIG.yml](./backend/PRISMA_CONFIG.yml) or [docker-compose.yml](./backend/docker-compose.yml) files.)
 
 ### MongoDB Setup
 
@@ -63,41 +104,39 @@ db.createUser({
 
 This application requires 4 local servers during development.
 
-1. Frontend Server (Next.js/Apollo Client/React)
-2. Backend Server (Apollo Server)
-3. Prisma Server
-4. MongoDB Database
-
-## Running
+| Server           | Port  | Purpose                     |
+| ---------------- | ----- | --------------------------- |
+| Frontend Server  | 7777  | Next.js/Apollo Client       |
+| Backend Server   | 4444  | Apollo Server/Backend Logic |
+| Prisma Server    | 4466  | GraphQL Database Mapping    |
+| MongoDB Database | 27017 | Database                    |
 
 ## Running
 
 To run the application you need to have your MongoDB running.  (Assumption is that it is on your local machine on port 27017.  This can be either as a local server or running in a port-mapped docker container.)
 
-1. Run Prisma
-2. Deploying Database Changes
-3. Run Backend
-4. Run Frontend
-
-> **TODO** Details on each of the above
+1. Run Prisma (./backend `npm run prisma`)
+2. Deploy Database Changes (./backend `npm run db:deploy`)
+3. Run Backend (./backend `npm run dev`)
+4. Run Frontend (./frontend `npm run dev`)
 
 > Describe how to run and access the application.  In the case of an application which runs as part of a larger server, then note the URL at which the application can be accessed.  (And any important URLs the application exposes.)
-
+>
 > If there is a way to start up the application in debug mode, describe that as well.
 
 ### Running Prisma
 
-Prisma is a general-purpose server.  You only need one running for all Prisma-based applications you are working on (per database type - Mongo/MySQL/etc...)
+Prisma is a general-purpose server.  You only need one instance running for all Prisma-based applications you are working on (per database type - Mongo/MySQL/etc...)
 
-Prisma runs as a docker container.  No local install is needed except for the Docker host application.
+Prisma runs in a docker container.  No local install is needed except for the Docker host application.
 
-You have two options when running Prisma.  If you already have a local MongoDB database running on your system, then you can use the npm command:
+You have two options when running Prisma.  If you already have a local MongoDB database running on your system on port 27017, then you can use the npm command:
 
 ```sh
 npm run prisma
 ```
 
-That will start up the Prisma server and leave it running in the background.  You can check the status of the server by running
+That will start up the Prisma server and leave it running in the background.  Prisma's configuration is in [backend/PRISMA_CONFIG.yml](./backend/PRISMA_CONFIG.yml).  You can check the running status of the server by running:
 
 ```sh
 docker ps
@@ -111,7 +150,7 @@ npm run prisma:stop
 
 #### Prisma URLs
 
-Prisma will be running a GraphQL Playground at <http://localhost:4466>.  You will need a token to be able to use it.  Run the `db:token` command for that.
+Prisma will be running a GraphQL Playground at <http://localhost:4466/${APP_NAME}/local>.  You will need a token to be able to use it.  Run the `db:token` command for that.
 
 Prisma also has a useful administrative UI.  To access that for your database, run: `npm run db:admin` to open that in your browser.
 
@@ -170,7 +209,7 @@ The JSON object will look something like the following:
 
 ```json
 {
-  "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJ0ZWFAbG9jYWwiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTU3NDI1MzMxLCJleHAiOjE1NTgwMzAxMzF9.r1q6R5Kpx40BqBgg1wgFj-OHqgfVHJoQD_shCEk2o8I"
+  "APIAuthToken":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJ0ZWFAbG9jYWwiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTU3NDI1MzMxLCJleHAiOjE1NTgwMzAxMzF9.r1q6R5Kpx40BqBgg1wgFj-OHqgfVHJoQD_shCEk2o8I"
 }
 ```
 
