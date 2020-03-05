@@ -2,7 +2,8 @@ module.exports = {
   plugins: ['sonarjs'],
   extends: ['airbnb-base', 'plugin:sonarjs/recommended'],
   rules: {
-    'no-console': 'warn',
+    'semi': ['error', 'always'],
+    'no-console': 'error',
     'spaced-comment': 'off',
     'no-underscore-dangle': 'off',
     'no-param-reassign': ['error', {
@@ -10,6 +11,11 @@ module.exports = {
     }],
     'no-plusplus': ['error', {
       'allowForLoopAfterthoughts': true
+    }],
+    'no-unused-vars': [ 'error', {
+      vars: 'all',
+      args: 'after-used',
+      argsIgnorePattern: 'called|data|loading|error',
     }],
     'max-len': ['warn', 100, 2, {
       ignoreUrls: true,

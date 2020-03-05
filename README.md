@@ -126,11 +126,15 @@ The [`.env.example`](./backend/.env.example) file should be functional for a loc
   * `development` : enables certain hot reloading features and debugging options - intended for use in workstation environments only
   * `production` : used on all server deployments to compile code without debug options
 * `SERVER_BACKEND_URL`
-  *
+  * URL to be used for GraphQL calls for communications between the frontend and backend server components.
 * `PRISMA_MANAGEMENT_API_SECRET`
+  * Secret used to protect the Prisma managment API calls which allow for deployment of schema changes.
 * `PRISMA_SECRET`
+  * This application's secret which allows data updates to the stored data.  This secret is per application and environment.
 * `JWT_SECRET`
+  * Signing key used to verify JWT tokens between the browser, frontend, and backend servers.
 * `SESSION_SECRET`
+  * Signing key used by the Express session management library.
 
 ##### Encrypted Properties
 

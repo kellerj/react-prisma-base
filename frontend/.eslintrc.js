@@ -10,7 +10,7 @@ module.exports = {
   },
   rules: {
     'semi': ['error', 'always'],
-    'no-console': 'off',
+    'no-console': 'warn',
     'spaced-comment': 'off',
     'no-underscore-dangle': 'off',
     'no-param-reassign': ['error', {
