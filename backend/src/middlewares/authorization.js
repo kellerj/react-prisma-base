@@ -6,15 +6,16 @@
  */
 const jsonColorizer = require('json-colorizer');
 const stringify = require('json-stringify-safe');
+/* eslint-disable no-unused-vars */
+const {
+  rule, shield, and, or, deny, not, allow,
+} = require('graphql-shield');
+
 const { getLogger } = require('../lib/logger');
 
 const log = getLogger('authorization');
 
 const RULE_TRACING_ON = false;
-/* eslint-disable no-unused-vars */
-const {
-  rule, shield, and, or, deny, not, allow,
-} = require('graphql-shield');
 
 /**
  * Checks whether the request contains an authenticated `userId`
