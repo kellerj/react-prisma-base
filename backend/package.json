@@ -19,9 +19,10 @@
     "generate": "dotenv prisma generate",
     "postinstall": "npm run generate",
     "prisma": "docker run --name prisma --rm -d -p 4466:4466 --env PRISMA_CONFIG_PATH=/tmp/PRISMA_CONFIG.yml -v $PWD/PRISMA_CONFIG.yml:/tmp/PRISMA_CONFIG.yml prismagraphql/prisma:1.34",
-    "prisma:token": "env-cmd --verbose  --use-shell -x echo \"jwt -t -e '{\\\"data\\\":{\\\"service\\\":\\\"$$APP_NAME@$INSTANCE_ID\\\",\\\"roles\\\":[\\\"admin\\\"]},\\\"exp\\\":2000000000}' -s ${PRISMA_SECRET}\"",
+    "prisma:token": "dotenv node scripts/create-prisma-token.js",
     "prisma:stop": "docker stop prisma",
-    "gen-keypair": "dotenv node scripts/create-key-pair.js"
+    "gen-keypair": "dotenv node scripts/create-key-pair.js",
+    "encrypt-config-val": "node scripts/encrypt-config-value.js"
   },
   "dependencies": {
     "apollo-server-express": "^2.9.13",

@@ -43,4 +43,6 @@ To run the application you need to have your MongoDB running.  (Assumption is th
 2. Deploy Database Changes (`npm run db:deploy`)
 3. Run Backend (`npm run dev`)
 
-## Configuration Propeties
+## Configuration Properties
+
+See reference in main project [README.md](../README.md)

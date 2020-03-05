@@ -88,6 +88,42 @@ The [`.env.example`](./backend/.env.example) file should be functional for a loc
 
 * Copy `backend/.env.example` to `backend/.env`
 
+#### Environment Variables
+
+> FE == Used by Frontend server
+> BE == Used by Backend Server
+
+| Environment Variable         | FE  | BE  | Purpose                                                     |
+| ---------------------------- | --- | --- | ----------------------------------------------------------- |
+| INSTANCE_ID                  | X   | X   | instance code (dev/qa/prd)                                  |
+| NODE_ENV                     | X   | X   |
+| APP_NAME                     | X   | X   | Used to id application and database schema                  |
+| FRONTEND_PORT                | X   |     | Listening port for frontend                                 |
+| FRONTEND_URL                 | X   | X   | Public URL for application                                  |
+| BACKEND_PORT                 |     | X   | Listening port for backend                                  |
+| BACKEND_BASE_URL             | X   |     | Public root URL for backend server                          |
+| BACKEND_URL                  | X   | X   | Public URL for backend server's GraphQL endpoints           |
+| SERVER_BACKEND_URL           | X   |     | Internal URL for backend server's GraphQL endpoints         |
+| PRISMA_BASE_URL              |     |     | Base URL of the Prisma server                               |
+| PRISMA_ENDPOINT              |     | X   | URL of the Prisma Server's endpoint for this app/instance   |
+| PRISMA_SECRET                |     | X   | Application-specific secret for prisma                      |
+| PRISMA_MANAGEMENT_API_SECRET |     | X   | Prisma-server global management API secret                  |
+| PRISMA_DEBUG                 |     | X   | Turn Prisma debug logging on/off                            |
+| GRAPHQL_PLAYGROUND_ENABLED   |     | X   | Turn GraphQL Playground on backend on/off                   |
+| JWT_SECRET                   | X   | X   | Signing secret for JWT tokens shared between FE and BE      |
+| SESSION_SECRET               | X   |     | Signing secret for the express session token.               |
+| SESSION_EXPIRE_HOURS         | X   |     | Hours for expiration of express session and JWT Token       |
+| KEY_PATH                     |     | X   | Path to the key files used for encryption.                  |
+| KEY_CURR_ID                  |     | X   | Current Encryption key ID.                                  |
+| KEY_PASSPHRASE               |     | X   | Passphrase to decrypt the private key used to decrypt data. |
+| LOG_DIRECTORY                | X   | X   | Location to store any file-based logs.                      |
+
+##### Encrypted Properties
+
+The base application supports encryption of properties via the Jasypt library.  Any property can be be set in the `.env` configuration file with the format: `ENC(encrypted_value)`.  That value will be decrypted using the key stored in the `APP_CONFIG_KEY` environment variable.
+
+To encrypt
+
 ### MongoDB Setup
 
 If you are not using the docker-compose version of MongoDB, you will need to create a prisma user on your local MongoDB instance.  Log into your server and issue the following command:
@@ -176,6 +212,7 @@ This has been encapsulated in the command below.  On first run, this will also s
 ```sh
 npm run db:deploy
 ```
+
 
 ### Running Backend
 
